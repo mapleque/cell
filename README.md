@@ -16,7 +16,7 @@
     |- constant
     |   |- define.go     # 代码中可能用到的任何独立常量
     |   |- enum.go       # 代码中的枚举常量 
-    |   |- redis.go      # 全部redis key定义
+    |   |- cache.go      # 全部cache key定义
     |   |- status.go     # 返回数据中的status定义
     |- deploy
     |   |- sql               # 当前数据库初始化sql
