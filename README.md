@@ -1,10 +1,10 @@
 # Tellus
 
-[编码规范](https://git.oschina.net/SusuanServer/Tellus/wikis/编码规范)
+如何使用本服务，请参考：[接口文档](https://git.oschina.net/SusuanServer/Tellus/wikis/接口文档)
 
-[环境部署](https://git.oschina.net/SusuanServer/Tellus/wikis/项目部署)
+开发环境部署，请参考：[项目部署](https://git.oschina.net/SusuanServer/Tellus/wikis/项目部署)
 
-[接口文档](https://git.oschina.net/SusuanServer/Tellus/wikis/接口文档)
+提交代码前务必熟读并背诵：[编码规范](https://git.oschina.net/SusuanServer/Tellus/wikis/编码规范)
 
 ## 项目说明
 
