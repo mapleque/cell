@@ -5,4 +5,8 @@ package constant
 // STATUS_ERROR_* = 10000 - 19999 处理过程错误
 // STATUS_INVALID_* = 20000 - 29999 参数错误、状态错误
 
-const STATUS_INVALID_USER = 20001 // 用户认证失败
+const STATUS_ERROR_INVALID_USER = 10001 // 用户不合法
+
+const STATUS_INVALID_MOBILE = 20001 // 手机号不合法
+const STATUS_INVALID_TOKEN = 20002  // token非法
+const STATUS_INVALID_FIELD = 20003  // 指定的字段不正确
