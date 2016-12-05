@@ -54,7 +54,7 @@ func GetInfo(context *Context) bool {
 	}
 
 	// token to userId
-	userId, err := user.CheckToken(token)
+	mobile, err := user.CheckToken(token)
 	if err != 0 { // check token faild
 		context.Status = STATUS_ERROR_INVALID_USER
 		context.Errmsg = "Your token is: " + token
@@ -62,7 +62,7 @@ func GetInfo(context *Context) bool {
 	}
 
 	// get user info
-	info, err := user.GetInfo(userId, wantFields)
+	info, err := user.GetInfo(mobile, wantFields)
 	if err != 0 {
 		switch err {
 		case -1:
@@ -70,7 +70,7 @@ func GetInfo(context *Context) bool {
 			return RTBool(false)
 		case 1:
 			context.Status = STATUS_ERROR_INVALID_USER
-			context.Errmsg = "Your userId is: " + String(userId)
+			context.Errmsg = "Your userId is: " + mobile
 			return RTBool(false)
 		}
 	}

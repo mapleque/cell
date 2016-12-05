@@ -3,7 +3,6 @@ package common
 import (
 	"bytes"
 	"crypto/aes"
-	"crypto/cipher"
 	"crypto/md5"
 	"encoding/base64"
 	"encoding/hex"
@@ -25,11 +24,16 @@ func AesEcbEnc(key, tar string) string {
 		return ""
 	}
 	blockSize := block.BlockSize()
-	ecb := cipher.NewCBCEncrypter(block, []byte(key)[:blockSize])
 	src := PKCS5Padding([]byte(tar), blockSize)
-	ret := make([]byte, len(src))
-	ecb.CryptBlocks(ret, src)
-	res := base64.StdEncoding.EncodeToString(ret)
+	dst := make([]byte, 0)
+	tmp := make([]byte, block.BlockSize())
+	for len(src) > 0 {
+		block.Encrypt(tmp, src[:blockSize])
+		src = src[blockSize:]
+		dst = append(dst, tmp...)
+	}
+
+	res := base64.StdEncoding.EncodeToString(dst)
 	return res
 }
 
@@ -46,12 +50,16 @@ func AesEcbDec(key, tar string) string {
 		return ""
 	}
 	blockSize := block.BlockSize()
-	ecb := cipher.NewCBCDecrypter(block, []byte(key)[:blockSize])
+	dst := make([]byte, 0)
+	tmp := make([]byte, blockSize)
 
-	ret := make([]byte, len(src))
-	ecb.CryptBlocks(ret, src)
+	for len(src) > 0 {
+		block.Decrypt(tmp, src[:blockSize])
+		src = src[blockSize:]
+		dst = append(dst, tmp...)
+	}
 
-	res := PKCS5UnPadding(ret)
+	res := PKCS5UnPadding(dst)
 
 	return string(res)
 }

@@ -1,6 +1,8 @@
 package user
 
 import (
+	"strings"
+
 	. "github.com/coral"
 	"github.com/tellus/common"
 )
@@ -28,23 +30,32 @@ func CheckLogin(username, password string) (int, int) {
 // @return <token, err>
 // 		err  =   0 success
 func GeneralToken(userId int) (string, int) {
-	return common.AesEcbEnc("yestem11yestem11yestem11yestem11", String(userId)), 0
+	//TODO change to config get key
+	// get user password
+	return common.AesEcbEnc("yestem11yestem11yestem11yestem11", String(userId)+"||password"), 0
 }
 
 // @author yangyang
 // @review
 // 检查token
 // @param token
-// @return <userId, err>
+// @return <mobile, err>
 // 		err  =   0 success
 // 				 1 invalid user
-func CheckToken(token string) (int, int) {
-	userId := Int(common.AesEcbDec("yestem11yestem11yestem11yestem11", token))
-
-	if userId > 0 {
-		return userId, 0
+func CheckToken(token string) (string, int) {
+	//TODO change to config get key
+	studentStr := String(common.AesEcbDec("yestem11yestem11yestem11yestem11", token))
+	if len(studentStr) < 1 {
+		return "", 1
 	}
-	return 0, 1
+	studentArr := strings.Split(studentStr, "||")
+	if len(studentArr) < 2 {
+		return "", 1
+	}
+	// TODO check password
+	mobile := studentArr[0]
+
+	return mobile, 0
 }
 
 // @author yangyang
@@ -60,11 +71,12 @@ func CheckToken(token string) (int, int) {
 //			userId:
 //			studentId:
 //		}
-func GetInfo(userId int, field []string) (map[string]interface{}, int) {
-	if userId == 1 {
+func GetInfo(mobile string, field []string) (map[string]interface{}, int) {
+	if mobile != "" {
 		ret := make(map[string]interface{})
 		ret["studentId"] = 1
 		ret["userId"] = 1
+		ret["mobile"] = mobile
 		return ret, 0
 	}
 	return nil, 1

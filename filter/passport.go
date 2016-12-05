@@ -47,7 +47,8 @@ func init() {
 					STATUS_ERROR_INVALID_USER),
 				"data": Checker{
 					"userId":    Rule("int", 0, "如果fields未指定，值为0"),
-					"studentId": Rule("int", 0, "如果fields未指定，值为0")},
+					"studentId": Rule("int", 0, "如果fields未指定，值为0"),
+					"mobile":    Rule("mobile", 0, "如果fields未指定，值为空字符串")},
 				"errmsg": "string"}},
 
 			passport.GetInfo)
