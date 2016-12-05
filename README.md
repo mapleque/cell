@@ -18,13 +18,41 @@
     |   |- status.go            # 返回数据中的status定义
     |- deploy
     |   |- sql                  # 当前数据库初始化sql
+    |   |   |- user_system.sql
+    |   |   |- user_info.sql
+    |   |   |- user_resource.sql
+    |   |   |- user_feature.sql
     |   |- upgrade-branch       # 上线升级脚本，当脚本中存在对数据库表结构的改动时，在上线之后合并到sql/*.sql中，并删除此路径
     |- filter
-    |   |- filter.go            # 初始化文件，定义router初始化方法
-    |   |- <对应业务>.go        # 接口定义，包括：参数校验、返回数据格式定义，指定filter链等
-    |   |- <对应业务>           # filter的代码实现
+    |   |- filter.go            # 初始化文件，定义router初始化方法（通常不需要修改）
+    |   |- auth.go              # 公共filter，用于接口请求权限校验（通常不需要修改）
+    |   |- <module>.go          # 接口定义，包括：参数校验、返回数据格式定义，指定filter链等
+    |   |- <module>             # filter的代码实现
+    |   |- passport.go          # 登录登出等接口
+    |   |- passport
+    |   |   |- token.go         # token转换
+    |   |- info.go              # 用户信息相关接口
+    |   |- info
+    |   |   |- register.go      # 注册
+    |   |   |- update.go        # 更新信息
+    |   |   |- freeze.go        # 冻结
+    |   |- resource.go          # 计数资源相关接口
+    |   |- resource
+    |   |   |- check.go         # 检查资源
+    |   |   |- use.go           # 使用资源
+    |   |   |- update.go        # 更新资源
+    |   |   |- manage.go        # 管理系统资源
+    |   |- feature.go           # 计时资源相关接口
+    |   |- feature
+    |   |   |- check.go         # 检查资源
+    |   |   |- update.go        # 更新资源
+    |   |   |- manage.go        # 管理系统资源
     |- service
-    |   |- <对应数据>           # 业务逻辑代码实现
+    |   |- <component>          # 业务逻辑代码实现
+    |   |- system               # 用户系统信息相关操作
+    |   |- info                 # 用户个人信息相关操作
+    |   |- resource             # 计数资源相关操作
+    |   |- feature              # 计时资源相关操作
     |- tellus.go                # 服务初始化和程序启动入口
     |- README.md
 ```

@@ -4,7 +4,8 @@ import (
 	. "github.com/coral"
 
 	. "github.com/tellus/constant"
-	user "github.com/tellus/service/user"
+	"github.com/tellus/service/info"
+	"github.com/tellus/service/system"
 )
 
 // @author yangyang
@@ -17,7 +18,7 @@ func GetToken(context *Context) bool {
 	password := String(params["password"])
 
 	// check username and password
-	userId, err := user.CheckLogin(username, password)
+	userId, err := system.CheckLogin(username, password)
 	if err != 0 { // check login faild
 		switch err {
 		case -1:
@@ -35,7 +36,7 @@ func GetToken(context *Context) bool {
 	}
 
 	// userId to token
-	token, _ := user.GeneralToken(userId)
+	token, _ := system.GeneralToken(userId)
 	context.Data = token
 	return true
 }
@@ -54,7 +55,7 @@ func GetInfo(context *Context) bool {
 	}
 
 	// token to userId
-	mobile, err := user.CheckToken(token)
+	mobile, err := system.CheckToken(token)
 	if err != 0 { // check token faild
 		context.Status = STATUS_ERROR_INVALID_USER
 		context.Errmsg = "Your token is: " + token
@@ -62,7 +63,7 @@ func GetInfo(context *Context) bool {
 	}
 
 	// get user info
-	info, err := user.GetInfo(mobile, wantFields)
+	info, err := info.GetInfo(mobile, wantFields)
 	if err != 0 {
 		switch err {
 		case -1:
