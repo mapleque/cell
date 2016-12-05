@@ -45,6 +45,7 @@
 - 用户游戏相关信息（业务线）
 - 用户学习相关信息（业务线）
 - 其他业务相关信息（业务线）
+
 ## 现状
 当前速算学生端业务中，与用户中心相关的内容整理如下：
 - 学生登录：学生登录，换取token，在之后的请求中携带token，系统解析token获取学生id
@@ -52,12 +53,14 @@
 - 获取学生信息：通过token换id，通过id，获取信息
 - 学生资源（所有计数的东西）：体力，积分，钥匙，金币，各种道具
 - 学生特权（所有计时的东西）：学习资源包（永久），VIP
+
 ## 方案
 "xxx <-" 表示输入参数
 "xxx ->" 表示输出参数
 "+1 -> xxx" 表示从数据库表插入1条数据
 "s1 -> xxx" 表示从数据库表查询1条数据
 "u1 -> xxx" 表示更新数据库表的1条数据
+
 #### passport
 - 用户名密码换token接口
 username <-
@@ -70,12 +73,14 @@ token <-
 fileds_want <-
 s1 -> user_info
 fileds ->
+
 #### register
 - 添加用户信息接口（带有邀请关系和注册渠道等）
 fileds <-
 +1 -> user_system
 +1 -> user_info
 nil ->
+
 #### resource
 - 更新用户指定类型资源接口
 resource_id <-
@@ -88,6 +93,7 @@ user_resource ->
 resource ->
 +1 -> resource
 nil ->
+
 #### feature
 - 给用户加指定特权接口
 feature_id <-
@@ -109,6 +115,7 @@ user_feature ->
 feature <-
 +1 -> feature
 nil ->
+
 ## 数据
 所有user相关的表视情况根据user_id分表。
 ```
