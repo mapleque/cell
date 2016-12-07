@@ -1,5 +1,5 @@
 CREATE TABLE user_feature (
-    id INT UNSIGNED AUTO_INCREMET PRIMARY KEY NOT NULL,
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL,
     system_id INT UNSIGNED NOT NULL COMMENT '[fk]user_system.id，用户id',
     feature_id INT UNSIGNED NOT NULL COMMENT '[fk]product.id，特权id',
     start_time DATETIME DEFAULT NULL COMMENT '开始时间',

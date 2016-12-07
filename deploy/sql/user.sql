@@ -1,5 +1,5 @@
-CREATE TABLE user_system (
-    id INT UNSIGNED AUTO_INCREMET PRIMARY KEY NOT NULL,
+CREATE TABLE user(
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL,
     username VARCHAR(11) NOT NULL COMMENT '登录名',
     password VARCHAR(65) NOT NULL COMMENT '密码：user_token|rand_salt',
     inviter_id INT UNSIGNED DEFAULT NULL COMMENT '[fk]user_system.id，邀请人id',
@@ -13,4 +13,4 @@ CREATE TABLE user_system (
     create_time DATETIME DEFAULT NOW() NOT NULL COMMENT '创建时间'
 );
 
-ALTER TABLE user_system ADD INDEX (username), ADD INDEX(status), ADD INDEX(inviter_id);
+ALTER TABLE user ADD INDEX (username), ADD INDEX(status), ADD INDEX(inviter_id);

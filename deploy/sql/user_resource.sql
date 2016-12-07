@@ -1,5 +1,5 @@
 CREATE TABLE user_resource (
-    id INT UNSIGNED AUTO_INCREMET PRIMARY KEY NOT NULL,
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL,
     system_id INT UNSIGNED NOT NULL COMMENT '[fk]user_system.id，用户id',
     resource_id INT UNSIGNED NOT NULL COMMENT '[fk]product.id，资源id',
     amount BIGINT UNSIGNED DEFAULT 0 NOT NULL COMMENT '数量',
