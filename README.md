@@ -8,8 +8,7 @@
 
 > 什么属于用户中心范畴
 - 用户登录、登出（passport模块）
-- 用户注册、邀请管理（register模块）
-- 用户基本信息管理（info模块）
+- 用户注册、邀请、基本信息管理（info模块）
 - 用户资源体系（source模块）
 - 用户特权体系（feature模块）
 
@@ -36,8 +35,10 @@
     |- deploy                   # 部署相关
     |   |- sql                      # 当前数据库初始化sql
     |   |   |- user_system.sql          # user_system表
-    |   |   |- user_info.sql            # user_info表
-    |   |   |- user_resource.sql        # user_resourcel表
+    |   |   |- student.sql              # student表
+    |   |   |- teacher.sql              # teacher表
+    |   |   |- product.sql              # product表
+    |   |   |- user_resource.sql        # user_resource表
     |   |   |- user_feature.sql         # user_feauter表
     |   |- upgrade-branch           # 上线升级脚本，当脚本中存在对数据库表结构的改动时，在上线之后合并到sql/*.sql中，并删除此路径
     |- filter                   # 接口定义，包括：参数校验、返回数据格式定义，指定filter链等
@@ -103,57 +104,6 @@
 ```
                      |-------- teacher *tbd
                      |-------- student
-     user_system ----|-------- user_resource -------- resource
-                     |-------- user_feature ----------- feature
+     user_system ----|-------- user_resource --------|-- product
+                     |-------- user_feature ---------|
 ```
-
-- user
-type 类型：学生、老师、家长...
-
-- user_system
-id
-username 用户名
-password 密码
-inviter_id 邀请人id
-channel 注册渠道
-status 状态：正常、冻结、注销
-device_code 
-device_code 设备码
-version 客户端版本
-last_login_time 最后登录时间
-
-- user_info
-user_id [FK]
-name 姓名
-mobile 手机号
-sex 性别
-head_photo 头像
-
-- resource
-id
-name 名称
-type 类型
-status 状态
-desc 描述
-time 添加时间
-
-- user_resource
-user_id [FK]
-source_id [FK]
-amount 数量
-time 最后修改时间
-
-- feature
-id
-name 名称
-type 类型
-status 状态
-desc 描述
-time 添加时间
-
-- user_feature
-user_id [FK]
-privilege_id [FK]
-activated_time 激活时间
-expired_time 过期时间
-time 最后修改时间
