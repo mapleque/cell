@@ -1,0 +1,13 @@
+CREATE TABLE student(
+    id INT UNSIGNED AUTO_INCREMET PRIMARY KEY NOT NULL,
+    system_id INT UNSIGNED NOT NULL COMMENT '[fk]user_system.id，用户id',
+    name VARCHAR(20) DEFAULT NULL COMMENT '姓名',
+    mobile VARCHAR(11) DEFAULT NULL COMMENT '手机号',
+    sex TINYINT(1) DEFAULT NULL COMMENT '性别，SEX_*',
+    head_img VARCHAR(200) DEFAULT NULL COMMENT '用户头像地址',
+    status CHAR(1) NOT NULL COMMENT '账号状态，STUDENT_STATUS_*',
+    update_time DATETIME DEFAULT NOW() NOT NULL COMMENT '更新时间',
+    create_time DATETIME DEFAULT NOW() NOT NULL COMMENT '创建时间'
+);
+
+ALTER TABLE student ADD INDEX(system_id), ADD INDEX(status);

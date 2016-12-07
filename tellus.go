@@ -3,14 +3,14 @@ package main
 import (
 	"flag"
 
-	coral "github.com/coral"
-	cache "github.com/coral/cache"
-	config "github.com/coral/config"
-	db "github.com/coral/db"
-	log "github.com/coral/log"
+	"github.com/coral"
+	"github.com/coral/cache"
+	"github.com/coral/config"
+	"github.com/coral/db"
+	"github.com/coral/log"
 
 	. "github.com/tellus/constant"
-	filter "github.com/tellus/filter"
+	"github.com/tellus/filter"
 )
 
 var conf config.Configer

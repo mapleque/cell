@@ -10,3 +10,6 @@ const STATUS_ERROR_INVALID_USER = 10001 // 用户不合法
 const STATUS_INVALID_MOBILE = 20001 // 手机号不合法
 const STATUS_INVALID_TOKEN = 20002  // token非法
 const STATUS_INVALID_FIELD = 20003  // 指定的字段不正确
+const STATUS_INVALID_ID = 20004     // id不正确
+const STATUS_INVALID_AMOUNT = 20005 // 数量不正确
+const STATUS_INVALID_TIME = 20006   // 时间不正确
