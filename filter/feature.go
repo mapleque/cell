@@ -16,8 +16,14 @@ func init() {
 			Description: "检查用户指定特权状态",
 			Input: Checker{
 				"data": Checker{
-					"token":       Rule("string", STATUS_INVALID_TOKEN, "用户token"),
-					"feature_ids": []string{Rule("int", STATUS_INVALID_ID, "要查的特权id")}}},
+					"token": Rule(
+						"string",
+						STATUS_INVALID_TOKEN,
+						"用户token"),
+					"feature_ids": []string{Rule(
+						"int",
+						STATUS_INVALID_ID,
+						"要查的特权id")}}},
 			Output: Checker{
 				"status": InStatus(
 					STATUS_INVALID_TOKEN,
@@ -36,7 +42,10 @@ func init() {
 			Description: "更新用户拥有的指定特权数量",
 			Input: Checker{
 				"data": Checker{
-					"token":      Rule("string", STATUS_INVALID_TOKEN, "用户token"),
+					"token": Rule(
+						"string",
+						STATUS_INVALID_TOKEN,
+						"用户token"),
 					"feature_id": Rule("int", STATUS_INVALID_ID, "特权id"),
 					"start": Rule("datetime",
 						STATUS_INVALID_TIME,

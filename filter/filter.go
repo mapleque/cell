@@ -31,6 +31,10 @@ func InitRouter(sv *coral.Server) {
 // @review
 func DefaultFilter(context *coral.Context) bool {
 	context.Raw = true
-	context.Data = "<!doctype html><meta charset='utf-8'><title>Tellus</title><h1>Tellus</h1><p>api doc <a href='/doc'>@see</a></p>"
+	context.Data = `<!doctype html>
+<meta charset='utf-8'>
+<title>Tellus</title>
+<h1>Tellus</h1>
+<p>api doc <a href='/doc'>@see</a></p>`
 	return true
 }

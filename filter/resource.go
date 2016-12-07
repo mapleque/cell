@@ -16,8 +16,14 @@ func init() {
 			Description: "检查用户指定资源数量",
 			Input: Checker{
 				"data": Checker{
-					"token":        Rule("string", STATUS_INVALID_TOKEN, "用户token"),
-					"resource_ids": []string{Rule("int", STATUS_INVALID_ID, "要查的资源id")}}},
+					"token": Rule(
+						"string",
+						STATUS_INVALID_TOKEN,
+						"用户token"),
+					"resource_ids": []string{Rule(
+						"int",
+						STATUS_INVALID_ID,
+						"要查的资源id")}}},
 			Output: Checker{
 				"status": InStatus(
 					STATUS_INVALID_TOKEN,
@@ -34,9 +40,18 @@ func init() {
 			Description: "更新用户拥有的指定资源数量",
 			Input: Checker{
 				"data": Checker{
-					"token":       Rule("string", STATUS_INVALID_TOKEN, "用户token"),
-					"resource_id": Rule("int", STATUS_INVALID_ID, "资源id"),
-					"amount":      Rule("int", STATUS_INVALID_AMOUNT, "资源变化数量")}},
+					"token": Rule(
+						"string",
+						STATUS_INVALID_TOKEN,
+						"用户token"),
+					"resource_id": Rule(
+						"int",
+						STATUS_INVALID_ID,
+						"资源id"),
+					"amount": Rule(
+						"int",
+						STATUS_INVALID_AMOUNT,
+						"资源变化数量")}},
 			Output: Checker{
 				"status": InStatus(
 					STATUS_INVALID_MOBILE,

@@ -17,8 +17,14 @@ func init() {
 			Description: "用户登录",
 			Input: Checker{
 				"data": Checker{
-					"username": Rule("mobile", STATUS_INVALID_MOBILE, "用户手机号"),
-					"password": Rule("md5", STATUS_INVALID_TOKEN, "用户密码")}},
+					"username": Rule(
+						"mobile",
+						STATUS_INVALID_MOBILE,
+						"用户手机号"),
+					"password": Rule(
+						"md5",
+						STATUS_INVALID_TOKEN,
+						"用户密码")}},
 			Output: Checker{
 				"status": InStatus(
 					STATUS_INVALID_MOBILE,
@@ -34,7 +40,10 @@ func init() {
 			Description: "用户登出",
 			Input: Checker{
 				"data": Checker{
-					"token": Rule("string", STATUS_INVALID_TOKEN, "用户token")}},
+					"token": Rule(
+						"string",
+						STATUS_INVALID_TOKEN,
+						"用户token")}},
 			Output: Checker{
 				"status": InStatus(
 					STATUS_INVALID_TOKEN,

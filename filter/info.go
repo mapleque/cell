@@ -17,8 +17,14 @@ func init() {
 			Description: "用户注册",
 			Input: Checker{
 				"data": Checker{
-					"username": Rule("mobile", STATUS_INVALID_MOBILE, "用户手机号"),
-					"password": Rule("md5", STATUS_INVALID_TOKEN, "用户密码")}},
+					"username": Rule(
+						"mobile",
+						STATUS_INVALID_MOBILE,
+						"用户手机号"),
+					"password": Rule(
+						"md5",
+						STATUS_INVALID_TOKEN,
+						"用户密码")}},
 			Output: Checker{
 				"status": InStatus(
 					STATUS_INVALID_MOBILE,
@@ -47,7 +53,10 @@ func init() {
 				"data": Checker{
 					"userId":    Rule("int", 0, "如果fields未指定，值为0"),
 					"studentId": Rule("int", 0, "如果fields未指定，值为0"),
-					"mobile":    Rule("mobile", 0, "如果fields未指定，值为空字符串")},
+					"mobile": Rule(
+						"mobile",
+						0,
+						"如果fields未指定，值为空字符串")},
 				"errmsg": "string"}},
 
 			info.GetInfo)
