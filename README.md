@@ -34,12 +34,12 @@
     |   |- status.go                # 返回数据中的status定义
     |- deploy                   # 部署相关
     |   |- sql                      # 当前数据库初始化sql
-    |   |   |- user_system.sql          # user_system表
+    |   |   |- user.sql                 # user_system表
     |   |   |- student.sql              # student表
     |   |   |- teacher.sql              # teacher表
     |   |   |- product.sql              # product表
-    |   |   |- user_resource.sql        # user_resource表
-    |   |   |- user_feature.sql         # user_feauter表
+    |   |   |- resource.sql             # resource表
+    |   |   |- feature.sql              # feauter表
     |   |- upgrade-branch           # 上线升级脚本，当脚本中存在对数据库表结构的改动时，在上线之后合并到sql/*.sql中，并删除此路径
     |- filter                   # 接口定义，包括：参数校验、返回数据格式定义，指定filter链等
     |   |- filter.go                # 初始化filter，定义router初始化方法
@@ -63,8 +63,9 @@
     |   |   |- update.go                # 更新资源
     |   |   |- manage.go                # 管理系统资源
     |- service                  # 业务逻辑代码实现
-    |   |- system                   # 用户系统信息相关操作
-    |   |- info                     # 用户个人信息相关操作
+    |   |- user                     # 系统用户信息相关操作
+    |   |- student                  # 学生用户信息相关操作
+    |   |- teacher                  # 教师用户信息相关操作
     |   |- resource                 # 计数资源相关操作
     |   |- feature                  # 计时资源相关操作
     |- tellus.go                # 服务初始化和程序启动入口
@@ -88,7 +89,7 @@
 |- info
 |   |- check tbd
 |   |- update tbd
-|   |- register tbd
+|   |- register
 |- resource
 |   |- check tbd
 |   |- update tbd
@@ -104,6 +105,6 @@
 ```
                      |-------- teacher *tbd
                      |-------- student
-     user_system ----|-------- user_resource --------|-- product
-                     |-------- user_feature ---------|
+     user -----------|-------- resource --------|-- product
+                     |-------- feature ---------|
 ```

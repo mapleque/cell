@@ -10,7 +10,7 @@ import (
 	"github.com/coral/log"
 )
 
-func Md5(tar string) string {
+func MD5(tar string) string {
 	h := md5.New()
 	h.Write([]byte(tar))
 	bs := h.Sum(nil)
@@ -72,5 +72,9 @@ func PKCS5Padding(tar []byte, blockSize int) []byte {
 func PKCS5UnPadding(tar []byte) []byte {
 	length := len(tar)
 	unpadding := int(tar[length-1])
-	return tar[:(length - unpadding)]
+	tarlen := length - unpadding
+	if tarlen < 0 || tarlen > len(tar) {
+		return []byte{}
+	}
+	return tar[:tarlen]
 }

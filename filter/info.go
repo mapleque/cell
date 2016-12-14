@@ -10,6 +10,9 @@ import (
 // @author yangyang
 // @review
 // 初始化info的router
+// info/register
+// info/check
+// info/update
 func init() {
 	RegisterFilter("info", func(rt *Router) {
 		rt.NewDocRouter(&Doc{
@@ -24,6 +27,10 @@ func init() {
 					"password": Rule(
 						"md5",
 						STATUS_INVALID_TOKEN,
+						"用户密码"),
+					"type": Rule(
+						InString(USER_TYPE_STUDENT),
+						STATUS_INVALID_TYPE,
 						"用户密码")}},
 			Output: Checker{
 				"status": InStatus(
@@ -33,7 +40,7 @@ func init() {
 				"data": Checker{
 					"token": "string"},
 				"errmsg": "string"}},
-			DefaultFilter)
+			info.Register)
 
 		rt.NewDocRouter(&Doc{
 			Path:        "check",
