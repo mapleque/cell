@@ -25,7 +25,7 @@ func Login(context *Context) bool {
 			context.Errmsg = "Your username is: " + username
 			return RTBool(false)
 		case 2:
-			context.Status = STATUS_ERROR_INVALID_PASSWORD
+			context.Status = STATUS_INVALID_PASSWORD
 			context.Errmsg = "Your username is: " + username
 			return RTBool(false)
 		default:
@@ -34,7 +34,8 @@ func Login(context *Context) bool {
 			return RTBool(false)
 		}
 	}
-	context.Data = token
+	ret := map[string]interface{}{"token": token}
+	context.Data = ret
 	return true
 }
 
@@ -45,14 +46,14 @@ func Login(context *Context) bool {
 func Logout(context *Context) bool {
 	params := Map(context.Params["data"])
 	token := String(params["token"])
-	userId, code := user.CheckToken(token)
-	if code != 0 {
-		switch code {
+	userId, checkTokenCode := user.CheckToken(token)
+	if checkTokenCode != 0 {
+		switch checkTokenCode {
 		case -1:
 			context.Status = STATUS_ERROR_DB
 			return RTBool(false)
 		case 1:
-			context.Status = STATUS_ERROR_INVALID_TOKEN
+			context.Status = STATUS_INVALID_TOKEN
 			context.Errmsg = "Your token is: " + token
 			return RTBool(false)
 		default:
@@ -61,14 +62,14 @@ func Logout(context *Context) bool {
 			return RTBool(false)
 		}
 	}
-	_, code := user.Logout(userId)
-	if code != 0 {
-		switch code {
+	_, logoutCode := user.Logout(userId)
+	if logoutCode != 0 {
+		switch logoutCode {
 		case -1:
 			context.Status = STATUS_ERROR_DB
 			return RTBool(false)
 		case 1:
-			context.Status = STATUS_ERROR_INVALID_TOKEN
+			context.Status = STATUS_INVALID_TOKEN
 			context.Errmsg = "Your token is: " + token
 			return RTBool(false)
 		default:
@@ -77,6 +78,6 @@ func Logout(context *Context) bool {
 			return RTBool(false)
 		}
 	}
-	Context.data = ""
+	context.Data = ""
 	return true
 }

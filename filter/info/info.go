@@ -4,8 +4,8 @@ import (
 	. "github.com/coral"
 
 	. "github.com/tellus/constant"
-	"github.com/tellus/service/info"
-	"github.com/tellus/service/system"
+	"github.com/tellus/service/student"
+	"github.com/tellus/service/user"
 )
 
 // @author yangyang
@@ -22,7 +22,7 @@ func GetInfo(context *Context) bool {
 	}
 
 	// token to userId
-	mobile, err := system.CheckToken(token)
+	userId, err := user.CheckToken(token)
 	if err != 0 { // check token faild
 		context.Status = STATUS_ERROR_INVALID_USER
 		context.Errmsg = "Your token is: " + token
@@ -30,7 +30,7 @@ func GetInfo(context *Context) bool {
 	}
 
 	// get user info
-	info, err := info.GetInfo(mobile, wantFields)
+	info, err := student.GetInfo(userId, wantFields)
 	if err != 0 {
 		switch err {
 		case -1:
@@ -38,7 +38,7 @@ func GetInfo(context *Context) bool {
 			return RTBool(false)
 		case 1:
 			context.Status = STATUS_ERROR_INVALID_USER
-			context.Errmsg = "Your userId is: " + mobile
+			context.Errmsg = "Your userId is: " + String(userId)
 			return RTBool(false)
 		}
 	}

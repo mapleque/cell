@@ -31,14 +31,14 @@ func init() {
 					"type": Rule(
 						InString(USER_TYPE_STUDENT),
 						STATUS_INVALID_TYPE,
-						"用户密码")}},
+						"用户类型")}},
 			Output: Checker{
 				"status": InStatus(
 					STATUS_INVALID_MOBILE,
 					STATUS_INVALID_TOKEN,
+					STATUS_INVALID_TYPE,
 					STATUS_ERROR_INVALID_USER),
-				"data": Checker{
-					"token": "string"},
+				"data":   "string",
 				"errmsg": "string"}},
 			info.Register)
 
@@ -59,11 +59,7 @@ func init() {
 					STATUS_ERROR_INVALID_USER),
 				"data": Checker{
 					"userId":    Rule("int", 0, "如果fields未指定，值为0"),
-					"studentId": Rule("int", 0, "如果fields未指定，值为0"),
-					"mobile": Rule(
-						"mobile",
-						0,
-						"如果fields未指定，值为空字符串")},
+					"studentId": Rule("int", 0, "如果fields未指定，值为0")},
 				"errmsg": "string"}},
 
 			info.GetInfo)

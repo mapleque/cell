@@ -17,7 +17,7 @@ var conf config.Configer
 
 func initDB() {
 	// add default db
-	db.DB.AddDB(
+	db.AddDB(
 		DEF_DB,
 		conf.String("db.DB_DSN"),
 		conf.Int("db.DB_MAX_CONNECTION"),
@@ -29,7 +29,7 @@ func initDB() {
 
 func initRedis() {
 	// add default cache
-	cache.Cache.AddRedis(
+	cache.AddRedis(
 		DEF_REDIS,
 		conf.String("cache.REDIS_SERVER"),
 		conf.String("cache.REDIS_AUTH"),
@@ -42,7 +42,7 @@ func initRedis() {
 
 func initLog() {
 	// add default logger
-	log.Log.AddLogger(
+	log.AddLogger(
 		DEF_LOG,
 		conf.String("log.LOG_PATH"),
 		conf.Int("log.LOG_MAX_NUMBER"),
@@ -59,7 +59,7 @@ func initRouter(server *coral.Server) {
 }
 
 func main() {
-	confFile := flag.String("ini", "", "your config file")
+	confFile := flag.String("ini", "./config/config.ini", "your config file")
 	flag.Parse()
 	if *confFile != "" {
 		config.AddConfiger(config.INI, DEF_CONF, *confFile)

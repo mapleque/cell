@@ -84,12 +84,12 @@
 @see /doc
 ```
 |- passport
-|   |- login tbd
+|   |- login done
 |   |- logout tbd
 |- info
 |   |- check tbd
 |   |- update tbd
-|   |- register
+|   |- register done
 |- resource
 |   |- check tbd
 |   |- update tbd

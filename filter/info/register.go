@@ -17,7 +17,7 @@ func Register(context *Context) bool {
 	password := String(params["password"])
 	userType := String(params["type"])
 
-	userId, err := user.RegisterByMobile(mobile, password, userType)
+	_, err := user.RegisterByMobile(mobile, password, userType)
 	if err != 0 {
 		switch err {
 		case -1:
@@ -34,7 +34,6 @@ func Register(context *Context) bool {
 		}
 	}
 
-	token, _ := user.GeneralToken(userId)
-	context.Data = token
+	context.Data = ""
 	return true
 }

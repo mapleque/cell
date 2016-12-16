@@ -33,12 +33,12 @@ func AesEcbEnc(key, tar string) string {
 		dst = append(dst, tmp...)
 	}
 
-	res := base64.StdEncoding.EncodeToString(dst)
+	res := base64.URLEncoding.EncodeToString(dst)
 	return res
 }
 
 func AesEcbDec(key, tar string) string {
-	src, err := base64.StdEncoding.DecodeString(tar)
+	src, err := base64.URLEncoding.DecodeString(tar)
 	if err != nil {
 		log.Error("tar error", err.Error())
 		return ""
