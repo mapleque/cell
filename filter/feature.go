@@ -67,7 +67,7 @@ func init() {
 
 		rt.NewDocRouter(&Doc{
 			Path:        "manage",
-			Description: "管理系统特权"},
+			Description: "管理系统特权：添加"},
 			DefaultFilter)
 	})
 }

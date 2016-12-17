@@ -61,10 +61,5 @@ func init() {
 					"amount": Rule("int", 0, "资源变化之后的数量")},
 				"errmsg": "string"}},
 			DefaultFilter)
-
-		rt.NewDocRouter(&Doc{
-			Path:        "manage",
-			Description: "管理系统资源"},
-			DefaultFilter)
 	})
 }

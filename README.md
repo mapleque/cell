@@ -57,18 +57,27 @@
     |   |   |- check.go                 # 检查资源
     |   |   |- use.go                   # 使用资源
     |   |   |- update.go                # 更新资源
-    |   |   |- manage.go                # 管理系统资源
     |   |- feature.go               # 计时资源相关接口
     |   |- feature
     |   |   |- check.go                 # 检查资源
     |   |   |- update.go                # 更新资源
-    |   |   |- manage.go                # 管理系统资源
+    |   |- product.go               # 资源管理相关接口
+    |   |- product
+    |   |   |- add.go                   # 添加系统资源
+    |   |   |- list.go                  # 系统资源列表
+    |   |   |- update.go                # 修改系统资源
     |- service                  # 业务逻辑代码实现
     |   |- user                     # 系统用户信息相关操作
+    |   |   |- user.go
     |   |- student                  # 学生用户信息相关操作
+    |   |   |- student.go
     |   |- teacher                  # 教师用户信息相关操作
     |   |- resource                 # 计数资源相关操作
+    |   |   |- resource.go
     |   |- feature                  # 计时资源相关操作
+    |   |   |- feature.go
+    |   |- product                  # 资源记录相关操作
+    |   |   |- product.go
     |- tellus.go                # 服务初始化和程序启动入口
     |- README.md
 ```
@@ -85,20 +94,21 @@
 @see /doc
 ```
 |- passport
-|   |- login done
-|   |- logout tbd
+|   |- login            1.0
+|   |- logout           tbd
 |- info
-|   |- check done
-|   |- update done
-|   |- register done
+|   |- check-student    1.0
+|   |- update-student   1.0
+|   |- register         1.0
 |- resource
-|   |- check tbd
-|   |- update tbd
-|   |- manage tbd
+|   |- check            tbd
+|   |- update           tbd
 |- feature
-|   |- check tbd
-|   |- update tbd
-|   |- manage tbd
+|   |- check            tbd
+|   |- update           tbd
+|- product
+|   |- new              tbd
+|   |- list             tbd
 ```
 
 ## 数据设计

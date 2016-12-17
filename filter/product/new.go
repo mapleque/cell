@@ -1,10 +1,9 @@
-package resource
+package product
 
 import (
 	. "github.com/coral"
 
-	. "github.com/tellus/constant"
-	"github.com/tellus/service/resource"
+	service "github.com/tellus/service/product"
 )
 
 // @author yangyang
@@ -13,19 +12,15 @@ import (
 // @filter
 func New(context *Context) bool {
 	params := Map(context.Params["data"])
-	mobile := String(params["username"])
-	password := String(params["password"])
-	userType := String(params["type"])
+	productType := String(params["type"])
+	name := String(params["name"])
+	additional := String(params["additional"])
 
-	_, err := user.RegisterByMobile(mobile, password, userType)
+	id, err := service.New(productType, name, additional)
 	if err != 0 {
 		switch err {
 		case -1:
 			context.Status = STATUS_ERROR_DB
-			return RTBool(false)
-		case 1:
-			context.Status = STATUS_ERROR_INVALID_USER
-			context.Errmsg = "User mobile is exist: " + mobile
 			return RTBool(false)
 		default:
 			context.Status = STATUS_ERROR_UNKNOWN
@@ -34,6 +29,6 @@ func New(context *Context) bool {
 		}
 	}
 
-	context.Data = ""
+	context.Data = map[string]interface{}{"id": id}
 	return true
 }

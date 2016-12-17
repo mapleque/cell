@@ -18,3 +18,5 @@ const STATUS_INVALID_PASSWORD = 20008 // 密码不正确
 const STATUS_INVALID_NAME = 20009     // 姓名不正确
 const STATUS_INVALID_SEX = 20010      // 性别不正确
 const STATUS_INVALID_URL = 20011      // url不正确
+const STATUS_INVALID_PAGE = 20012     // 分页参数不正确
+const STATUS_INVALID_TEXT = 20013     // 文本参数不正确
