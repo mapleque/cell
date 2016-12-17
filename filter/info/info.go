@@ -12,10 +12,15 @@ import (
 // @review
 // 通过token获取用户信息
 // @filter
-func GetInfo(context *Context) bool {
+func GetStudentInfo(context *Context) bool {
 	params := Map(context.Params["data"])
 	token := String(params["token"])
 	fields := Array(params["fields"])
+	if len(fields) < 1 {
+		context.Status = STATUS_INVALID_FIELD
+		context.Errmsg = "Your field is none"
+		return RTBool(false)
+	}
 	var wantFields []string
 	for _, f := range fields {
 		wantFields = append(wantFields, String(f))
@@ -30,7 +35,7 @@ func GetInfo(context *Context) bool {
 	}
 
 	// get user info
-	info, err := student.GetInfo(userId, wantFields)
+	info, err := student.GetInfo(userId, wantFields, USER_TYPE_STUDENT)
 	if err != 0 {
 		switch err {
 		case -1:

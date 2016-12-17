@@ -50,7 +50,7 @@ func init() {
 					STATUS_ERROR_INVALID_USER),
 				"data":   "string",
 				"errmsg": "string"}},
-			DefaultFilter)
+			passport.Logout)
 
 	})
 }

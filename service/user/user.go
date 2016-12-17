@@ -6,7 +6,6 @@ import (
 	. "github.com/coral"
 	"github.com/coral/config"
 	"github.com/coral/db"
-	"github.com/coral/log"
 
 	"github.com/tellus/common"
 	. "github.com/tellus/constant"
@@ -83,8 +82,6 @@ func CheckToken(token string) (int, int) {
 		return 0, RTInt(1)
 	}
 
-	log.Debug(password)
-	log.Debug(String(users[0]["password"]))
 	if password != String(users[0]["password"]) {
 		return 0, RTInt(1)
 	}

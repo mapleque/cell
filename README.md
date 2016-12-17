@@ -87,7 +87,7 @@
 |   |- login done
 |   |- logout tbd
 |- info
-|   |- check tbd
+|   |- check done
 |   |- update tbd
 |   |- register done
 |- resource
