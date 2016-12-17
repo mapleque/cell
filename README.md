@@ -45,10 +45,11 @@
     |   |- filter.go                # 初始化filter，定义router初始化方法
     |   |- passport.go              # 登录登出等接口
     |   |- passport
-    |   |   |- token.go                 # token转换
+    |   |   |- token.go                 # token管理
     |   |- info.go                  # 用户信息相关接口
     |   |- info
     |   |   |- register.go              # 注册
+    |   |   |- check.go                 # 查询
     |   |   |- update.go                # 更新信息
     |   |   |- freeze.go                # 冻结
     |   |- resource.go              # 计数资源相关接口
@@ -88,7 +89,7 @@
 |   |- logout tbd
 |- info
 |   |- check done
-|   |- update tbd
+|   |- update done
 |   |- register done
 |- resource
 |   |- check tbd

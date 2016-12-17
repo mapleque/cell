@@ -35,7 +35,7 @@ func GetStudentInfo(context *Context) bool {
 	}
 
 	// get user info
-	info, err := student.GetInfo(userId, wantFields, USER_TYPE_STUDENT)
+	info, err := student.GetInfo(userId, wantFields)
 	if err != 0 {
 		switch err {
 		case -1:

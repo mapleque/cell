@@ -70,7 +70,33 @@ func init() {
 
 		rt.NewDocRouter(&Doc{
 			Path:        "update-student",
-			Description: "更新用户信息"},
-			DefaultFilter)
+			Description: "更新用户信息",
+			Input: Checker{
+				"data": Checker{
+					"token": Rule("string", STATUS_INVALID_TOKEN, "用户token"),
+					"fields": Checker{
+						"name": Optional(
+							Rule("string", STATUS_INVALID_NAME, "用户姓名")),
+						"mobile": Optional(
+							Rule("string", STATUS_INVALID_MOBILE, "用户姓名")),
+						"headImg": Optional(
+							Rule("string", STATUS_INVALID_URL, "用户姓名")),
+						"sex": Optional(
+							Rule(InInt(
+								USER_SEX_MALE,
+								USER_SEX_FEMALE),
+								STATUS_INVALID_SEX, "用户性别"))}}},
+			Output: Checker{
+				"status": InStatus(
+					STATUS_INVALID_TOKEN,
+					STATUS_ERROR_INVALID_USER,
+					STATUS_INVALID_FIELD,
+					STATUS_INVALID_NAME,
+					STATUS_INVALID_MOBILE,
+					STATUS_INVALID_URL,
+					STATUS_INVALID_SEX),
+				"data":   "string",
+				"errmsg": "string"}},
+			info.UpdateStudentInfo)
 	})
 }

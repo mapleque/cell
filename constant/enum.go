@@ -11,8 +11,8 @@ const USER_TYPE_TEACHER = "t" // 教师
 const USER_TYPE_PARENT = "p"  // 家长
 
 // user_sex 性别
-const USER_SEX_MALE = 1  // 男
-const USER_SEX_FEMAL = 2 // 女
+const USER_SEX_MALE = 1   // 男
+const USER_SEX_FEMALE = 2 // 女
 
 // product.type
 const PRODUCT_TYPE_RESOURCE = "r" // 资源

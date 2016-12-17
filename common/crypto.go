@@ -40,7 +40,6 @@ func AesEcbEnc(key, tar string) string {
 func AesEcbDec(key, tar string) string {
 	src, err := base64.URLEncoding.DecodeString(tar)
 	if err != nil {
-		log.Error("tar error", err.Error())
 		return ""
 	}
 
@@ -52,6 +51,10 @@ func AesEcbDec(key, tar string) string {
 	blockSize := block.BlockSize()
 	dst := make([]byte, 0)
 	tmp := make([]byte, blockSize)
+
+	if len(src) <= blockSize {
+		return ""
+	}
 
 	for len(src) > 0 {
 		block.Decrypt(tmp, src[:blockSize])
