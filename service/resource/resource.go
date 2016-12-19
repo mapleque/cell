@@ -58,7 +58,7 @@ func UpdateAmount(userId, productId, amount int) (int, int) {
 		return 0, RTInt(2)
 	}
 	infos := conn.Select(
-		`SELECT amount FROM resource
+		`SELECT id, amount FROM resource
 		WHERE user_id = ? AND product_id = ? LIMIT 1`,
 		userId, productId)
 	if len(infos) < 1 {
@@ -79,8 +79,8 @@ func UpdateAmount(userId, productId, amount int) (int, int) {
 		}
 		ret := conn.Update(
 			`UPDATE resource SET amount = ?
-			WHERE user_id = ? AND product_id = ? LIMIT 1`,
-			tarAmount, userId, productId)
+			WHERE id = ? AND amount = ? LIMIT 1`,
+			tarAmount, infos[0]["id"], infos[0]["amount"])
 		if ret != 1 {
 			return 0, RTInt(-1)
 		}

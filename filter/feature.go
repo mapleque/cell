@@ -4,6 +4,7 @@ import (
 	. "github.com/coral"
 
 	. "github.com/tellus/constant"
+	"github.com/tellus/filter/feature"
 )
 
 // @author yangyang
@@ -20,7 +21,7 @@ func init() {
 						"string",
 						STATUS_INVALID_TOKEN,
 						"用户token"),
-					"feature_ids": []string{Rule(
+					"product_ids": []string{Rule(
 						"int",
 						STATUS_INVALID_ID,
 						"要查的特权id")}}},
@@ -30,12 +31,12 @@ func init() {
 					STATUS_ERROR_INVALID_USER),
 				"data": []Checker{
 					Checker{
-						"key":   Rule("int", 0, "特权id"),
-						"valid": Rule("int", 0, "特权id对应的状态"),
-						"start": Rule("datetime", 0, "开始时间"),
-						"end":   Rule("datetime", 0, "结束时间")}},
+						"product_id": Rule("int", 0, "特权id"),
+						"valid":      Rule("int", 0, "特权id对应的状态"),
+						"start":      Rule("datetime", 0, "开始时间"),
+						"end":        Rule("datetime", 0, "结束时间")}},
 				"errmsg": "string"}},
-			DefaultFilter)
+			feature.Check)
 
 		rt.NewDocRouter(&Doc{
 			Path:        "update",
@@ -46,28 +47,22 @@ func init() {
 						"string",
 						STATUS_INVALID_TOKEN,
 						"用户token"),
-					"feature_id": Rule("int", STATUS_INVALID_ID, "特权id"),
-					"start": Rule("datetime",
+					"product_id": Rule("int", STATUS_INVALID_ID, "特权id"),
+					"start": Optional(Rule("datetime",
 						STATUS_INVALID_TIME,
-						"特权开始时间，空字符串不修改"),
-					"end": Rule("datetime",
+						"特权开始时间，空字符串不修改")),
+					"end": Optional(Rule("datetime",
 						STATUS_INVALID_TIME,
-						"特权结束时间，空字符串不修改")}},
+						"特权结束时间，空字符串不修改"))}},
 			Output: Checker{
 				"status": InStatus(
 					STATUS_INVALID_MOBILE,
 					STATUS_INVALID_TOKEN,
 					STATUS_ERROR_INVALID_USER),
 				"data": Checker{
-					"valid": Rule("int", 0, "修改后特权id对应的状态"),
-					"start": Rule("datetime", 0, "修改后的开始时间"),
-					"end":   Rule("datetime", 0, "修改后的结束时间")},
+					"start": Optional(Rule("datetime", 0, "修改后的开始时间")),
+					"end":   Optional(Rule("datetime", 0, "修改后的结束时间"))},
 				"errmsg": "string"}},
-			DefaultFilter)
-
-		rt.NewDocRouter(&Doc{
-			Path:        "manage",
-			Description: "管理系统特权：添加"},
-			DefaultFilter)
+			feature.Update)
 	})
 }
