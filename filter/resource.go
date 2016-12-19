@@ -4,6 +4,7 @@ import (
 	. "github.com/coral"
 
 	. "github.com/tellus/constant"
+	"github.com/tellus/filter/resource"
 )
 
 // @author yangyang
@@ -20,20 +21,21 @@ func init() {
 						"string",
 						STATUS_INVALID_TOKEN,
 						"用户token"),
-					"resource_ids": []string{Rule(
+					"product_ids": []string{Rule(
 						"int",
 						STATUS_INVALID_ID,
 						"要查的资源id")}}},
 			Output: Checker{
 				"status": InStatus(
+					STATUS_INVALID_ID,
 					STATUS_INVALID_TOKEN,
 					STATUS_ERROR_INVALID_USER),
 				"data": []Checker{
 					Checker{
-						"key":    Rule("int", 0, "资源id"),
-						"amount": Rule("int", 0, "资源id对应的数量")}},
+						"product_id": Rule("int", 0, "资源id"),
+						"amount":     Rule("int", 0, "资源id对应的数量")}},
 				"errmsg": "string"}},
-			DefaultFilter)
+			resource.Check)
 
 		rt.NewDocRouter(&Doc{
 			Path:        "update",
@@ -44,7 +46,7 @@ func init() {
 						"string",
 						STATUS_INVALID_TOKEN,
 						"用户token"),
-					"resource_id": Rule(
+					"product_id": Rule(
 						"int",
 						STATUS_INVALID_ID,
 						"资源id"),
@@ -54,12 +56,13 @@ func init() {
 						"资源变化数量")}},
 			Output: Checker{
 				"status": InStatus(
-					STATUS_INVALID_MOBILE,
 					STATUS_INVALID_TOKEN,
+					STATUS_INVALID_ID,
+					STATUS_INVALID_AMOUNT,
 					STATUS_ERROR_INVALID_USER),
 				"data": Checker{
 					"amount": Rule("int", 0, "资源变化之后的数量")},
 				"errmsg": "string"}},
-			DefaultFilter)
+			resource.Update)
 	})
 }

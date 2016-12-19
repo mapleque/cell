@@ -133,10 +133,9 @@ API 参数说明 @see /doc
 |   |- update           1.0
 ```
 #### 交互说明
+user passport
 ```
                       client              tellus
-                         |                  |
- user passport *****************************************************************
                          |                  |
                 username |                  |
                 password ------------> info/register----+
@@ -161,8 +160,10 @@ API 参数说明 @see /doc
                   fields ------------> info/update-student ----+
                          |                  |                  |
                          |                  | <----------------+
-                         |                  |
-product manage *****************************************************************
+```
+product manage
+```
+                      client              tellus
                          |                  |
                  product ------------> product/new ----+
                          |                  |          | product_id
@@ -177,8 +178,10 @@ product manage *****************************************************************
                pageStart ------------> product/list ----+
                          |                  |           | product info list
                          | <----------------------------+
-                         |                  |
-  user product *****************************************************************
+```
+user product
+```
+                      client              tellus
                          |                  |
                    token |                  |
               product_id ------------> resource/check --------+
@@ -206,7 +209,9 @@ product manage *****************************************************************
 1. user passport：用户登录和基本用户数据相关
 2. product manage：系统资源管理
 3. user product：用户资源相关
+
 其中2是后台管理接口，1和3提供对外服务。
+
 注意：
 1. 只有用户注册后，才能够登录修改查询。
 2. 只有资源注册后，才能给用户查询使用。
@@ -241,9 +246,9 @@ user_password
                             +--------> enc_password--+
 ```
 采用这种方案可以完全保证用户密码不被泄露：
-1.static_salt泄露，由于有rand_salt的存在，无法生成彩虹表。
-2.数据库数据泄露，由于有static_salt的存在，无法生成彩虹表。
-3.数据库和static_salt都泄露，由于有rand_salt随机性，当前运算能力下无法生成彩虹表。
+1. static_salt泄露，由于有rand_salt的存在，无法生成彩虹表。
+2. 数据库数据泄露，由于有static_salt的存在，无法生成彩虹表。
+3. 数据库和static_salt都泄露，由于有rand_salt随机性，当前运算能力下无法生成彩虹表。
 
 #### 用户token管理
 用户登录时生成token

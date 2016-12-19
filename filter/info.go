@@ -49,7 +49,7 @@ func init() {
 				"data": Checker{
 					"token": Rule("string", STATUS_INVALID_TOKEN, "用户token"),
 					"fields": []string{Rule(
-						"string{userId,studentId,name,mobile,sex,headImg}",
+						"string{user_id,student_id,name,mobile,sex,head_img}",
 						STATUS_INVALID_FIELD,
 						"指定要获取的字段")}}},
 			Output: Checker{
@@ -58,12 +58,12 @@ func init() {
 					STATUS_INVALID_FIELD,
 					STATUS_ERROR_INVALID_USER),
 				"data": Checker{
-					"userId":    Optional(Rule("int", 0, "用户id")),
-					"studentId": Optional(Rule("int", 0, "学生id")),
-					"name":      Optional(Rule("string", 0, "姓名")),
-					"mobile":    Optional(Rule("string", 0, "手机号")),
-					"sex":       Optional(Rule("int", 0, "性别")),
-					"headImg":   Optional(Rule("string", 0, "头像url"))},
+					"user_id":    Optional(Rule("int", 0, "用户id")),
+					"student_id": Optional(Rule("int", 0, "学生id")),
+					"name":       Optional(Rule("string", 0, "姓名")),
+					"mobile":     Optional(Rule("string", 0, "手机号")),
+					"sex":        Optional(Rule("int", 0, "性别")),
+					"head_img":   Optional(Rule("string", 0, "头像url"))},
 				"errmsg": "string"}},
 
 			info.GetStudentInfo)
@@ -79,7 +79,7 @@ func init() {
 							Rule("string", STATUS_INVALID_NAME, "用户姓名")),
 						"mobile": Optional(
 							Rule("string", STATUS_INVALID_MOBILE, "用户姓名")),
-						"headImg": Optional(
+						"head_img": Optional(
 							Rule("string", STATUS_INVALID_URL, "用户姓名")),
 						"sex": Optional(
 							Rule(InInt(
