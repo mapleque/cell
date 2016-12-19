@@ -37,7 +37,7 @@ func Login(mobile, password string) (string, int) {
 	conf := config.Use(DEF_CONF)
 	key := conf.String("token.USER_TOKEN_KEY")
 	token := common.AesEcbEnc(key, mobile+"||"+encPassword)
-	// TODO 登录写session逻辑
+	// TODO rand USER_TOKEN_KEY 并缓存
 	return token, 0
 }
 
@@ -49,7 +49,7 @@ func Login(mobile, password string) (string, int) {
 // 		err  =   0 success
 // 				 1 invalid user
 func Logout(userId int) (string, int) {
-	// TODO 退出登录清除session逻辑
+	// TODO 清除 USER_TOKEN_KEY 缓存
 	return "", 0
 }
 
@@ -62,6 +62,7 @@ func Logout(userId int) (string, int) {
 // 				 1 invalid token
 func CheckToken(token string) (int, int) {
 	conf := config.Use(DEF_CONF)
+	// TODO 从缓存取 USER_TOKEN_KEY
 	key := conf.String("token.USER_TOKEN_KEY")
 	studentStr := String(common.AesEcbDec(key, token))
 	if len(studentStr) < 1 {
@@ -74,6 +75,7 @@ func CheckToken(token string) (int, int) {
 	mobile := studentArr[0]
 	password := studentArr[1]
 
+	// TODO 延长 USER_TOKEN_KEY 缓存过期时间
 	conn := db.UseDB(DEF_DB)
 	users := conn.Select(
 		`SELECT id, password FROM user WHERE username = ? LIMIT 1`,

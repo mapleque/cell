@@ -107,15 +107,73 @@
 |   |- check            tbd
 |   |- update           tbd
 |- product
-|   |- new              tbd
-|   |- list             tbd
+|   |- new              1.0
+|   |- list             1.0
+|   |- update           1.0
 ```
 
 ## 数据设计
-所有user相关的表视情况根据user_id分表。
+数据库表关系如下：
 ```
                      |-------- teacher *tbd
                      |-------- student
-     user -----------|-------- resource --------|-- product
+     user -----------|-------- resource --------|-------- product
                      |-------- feature ---------|
 ```
+数据层扩展：
+1.分区，所有user相关表，都可以根据user_id分区；所有product相关表，都可以根据product_id分区。
+2.nosql，所有user相关表，都可以转为以user_id为key的kv数据。
+3.缓存，所有user相关表，都可以增加读缓存、写更新缓存策略。
+
+## 技术细节
+
+#### 用户密码加密
+```
+user_password
+    |
+    | (md5)
+    |
+    +--------> md5_password    md5_rand_salt --------+
+                    |               |                |
+   static_salt -----+---------------+                | (save db)
+                            |                        +----------> user.password
+                            | (md5)                  |
+                            |                        |
+                            +--------> enc_password--+
+```
+采用这种方案可以完全保证用户密码不被泄露：
+1.static_salt泄露，由于有rand_salt的存在，无法生成彩虹表。
+2.数据库数据泄露，由于有static_salt的存在，无法生成彩虹表。
+3.数据库和static_salt都泄露，由于有rand_salt随机性，当前运算能力下无法生成彩虹表。
+
+#### 用户token管理
+用户登录时生成token
+```
+mobile, user_password
+   |         |
+   |         | (search enc password and check)
+   |         |
+   |         +----> enc_password
+   |                     |
+   +----+----------------+
+        |               config::token.USER_TOKEN_KEY(rand token and cache)
+        |                           |
+        +------------+--------------+
+                     |
+                     | (encrypt:aes-256-ecb)
+                     |
+                     +--------> token
+
+token   config::token.USER_TOKEN_KEY (get token from cache and update expire time)
+  |                 |
+  +---------+-------+
+            |
+            +--------> mobile
+                        |
+                        | (get from db)
+                        |
+                        +-------> userId
+```
+注销可采用USER_TOKEN_KEY缓存过期策略，即在用户登录时随机生成新的USER_TOKEN_KEY并缓存，之后的token解析都使用这个缓存的key，同时重置过期时间，对于无法找到key缓存的用户，直接要求重新登录。
+在此策略下，一旦用户重新登录，那么之前的token将失效，保证用户信息安全。
+作弊登录，可以沿用通用密码，并在使用通用密码的逻辑下，只使用不更新缓存key。
