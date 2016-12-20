@@ -1,9 +1,5 @@
 # Tellus
 
-开发环境部署，请参考：[项目部署](https://git.oschina.net/SusuanServer/Tellus/wikis/项目部署)
-
-提交代码前务必熟读并背诵：[编码规范](https://git.oschina.net/SusuanServer/Tellus/wikis/编码规范)
-
 ## 项目说明
 
 > 什么属于用户中心范畴
@@ -21,7 +17,7 @@
 
 ## 文件组织
 ```
-|- Tellus
+|- cell
     |- common                   # 公共方法封装和工具方法
     |   |- auth.go                  # 公共filter，用于接口请求权限校验
     |   |- crypto.go                # 加密工具封装
@@ -78,7 +74,7 @@
     |   |   |- feature.go
     |   |- product                  # 资源记录相关操作
     |   |   |- product.go
-    |- tellus.go                # 服务初始化和程序启动入口
+    |- cell.go                # 服务初始化和程序启动入口
     |- README.md
 ```
 ## 学生端对接
@@ -135,7 +131,7 @@ API 参数说明 @see /doc
 #### 交互说明
 user passport
 ```
-                      client              tellus
+                      client              cell
                          |                  |
                 username |                  |
                 password ------------> info/register----+
@@ -163,7 +159,7 @@ user passport
 ```
 product manage
 ```
-                      client              tellus
+                      client              cell
                          |                  |
                  product ------------> product/new ----+
                          |                  |          | product_id
@@ -181,7 +177,7 @@ product manage
 ```
 user product
 ```
-                      client              tellus
+                      client              cell
                          |                  |
                    token |                  |
               product_id ------------> resource/check --------+

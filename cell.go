@@ -9,8 +9,8 @@ import (
 	"github.com/coral/db"
 	"github.com/coral/log"
 
-	. "github.com/tellus/constant"
-	"github.com/tellus/filter"
+	. "github.com/cell/constant"
+	"github.com/cell/filter"
 )
 
 var conf config.Configer

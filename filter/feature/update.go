@@ -3,9 +3,9 @@ package feature
 import (
 	. "github.com/coral"
 
-	. "github.com/tellus/constant"
-	service "github.com/tellus/service/feature"
-	"github.com/tellus/service/user"
+	. "github.com/cell/constant"
+	service "github.com/cell/service/feature"
+	"github.com/cell/service/user"
 )
 
 // @author yangyang

@@ -3,9 +3,9 @@ package resource
 import (
 	. "github.com/coral"
 
-	. "github.com/tellus/constant"
-	service "github.com/tellus/service/resource"
-	"github.com/tellus/service/user"
+	. "github.com/cell/constant"
+	service "github.com/cell/service/resource"
+	"github.com/cell/service/user"
 )
 
 // @author yangyang

@@ -7,8 +7,8 @@ import (
 	"github.com/coral/config"
 	"github.com/coral/db"
 
-	"github.com/tellus/common"
-	. "github.com/tellus/constant"
+	"github.com/cell/common"
+	. "github.com/cell/constant"
 )
 
 // @author yangyang

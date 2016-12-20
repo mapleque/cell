@@ -4,7 +4,7 @@ import (
 	. "github.com/coral"
 	"github.com/coral/db"
 
-	. "github.com/tellus/constant"
+	. "github.com/cell/constant"
 )
 
 // @author yangyang

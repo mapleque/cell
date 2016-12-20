@@ -3,8 +3,8 @@ package passport
 import (
 	. "github.com/coral"
 
-	. "github.com/tellus/constant"
-	"github.com/tellus/service/user"
+	. "github.com/cell/constant"
+	"github.com/cell/service/user"
 )
 
 // @author yangyang

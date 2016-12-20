@@ -3,7 +3,7 @@ package product
 import (
 	. "github.com/coral"
 
-	service "github.com/tellus/service/product"
+	service "github.com/cell/service/product"
 )
 
 // @author yangyang

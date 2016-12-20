@@ -3,8 +3,8 @@ package filter
 import (
 	. "github.com/coral"
 
-	. "github.com/tellus/constant"
-	"github.com/tellus/filter/info"
+	. "github.com/cell/constant"
+	"github.com/cell/filter/info"
 )
 
 // @author yangyang
