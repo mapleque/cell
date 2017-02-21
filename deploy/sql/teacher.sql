@@ -1,2 +1,0 @@
--- TBD
--- teacher_info
