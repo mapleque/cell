@@ -15,9 +15,8 @@ func Register(context *Context) bool {
 	params := Map(context.Params["data"])
 	mobile := String(params["username"])
 	password := String(params["password"])
-	userType := String(params["type"])
 
-	_, err := user.RegisterByMobile(mobile, password, userType)
+	_, err := user.RegisterByMobile(mobile, password)
 	if err != 0 {
 		switch err {
 		case -1:

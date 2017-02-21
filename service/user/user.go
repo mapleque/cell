@@ -96,12 +96,11 @@ func CheckToken(token string) (int, int) {
 // 通过手机号注册
 // @param username <手机号>
 // @param password <密码>
-// @param userType <用户类型, USER_TYPE_*>
 // @return <userId, code>
 // 		err  =   0 success
 // 				-1 db error
 // 				 1 invalid user
-func RegisterByMobile(mobile, password, userType string) (int, int) {
+func RegisterByMobile(mobile, password string) (int, int) {
 	conn := db.UseDB(DEF_DB)
 	// 先查手机号是否存在
 	users := conn.Select(
@@ -125,17 +124,12 @@ func RegisterByMobile(mobile, password, userType string) (int, int) {
 	}
 
 	// 插入对应类型user info
-	switch userType {
-	case USER_TYPE_STUDENT:
-		studentId := conn.Insert(
-			`INSERT INTO student (user_id, mobile) VALUES (?,?)`,
-			userId, mobile)
-		if studentId <= 0 {
-			trans.Rollback()
-			return 0, RTInt(-1)
-		}
-	default:
-		return 0, RTInt(2)
+	roleId := conn.Insert(
+		`INSERT INTO role (user_id, mobile) VALUES (?,?)`,
+		userId, mobile)
+	if roleId <= 0 {
+		trans.Rollback()
+		return 0, RTInt(-1)
 	}
 
 	trans.Commit()

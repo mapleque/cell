@@ -4,7 +4,7 @@ import (
 	. "github.com/coral"
 
 	. "github.com/cell/constant"
-	"github.com/cell/service/student"
+	"github.com/cell/service/role"
 	"github.com/cell/service/user"
 )
 
@@ -12,7 +12,7 @@ import (
 // @review
 // 通过token获取用户信息
 // @filter
-func GetStudentInfo(context *Context) bool {
+func GetInfo(context *Context) bool {
 	params := Map(context.Params["data"])
 	token := String(params["token"])
 	fields := Array(params["fields"])
@@ -35,7 +35,7 @@ func GetStudentInfo(context *Context) bool {
 	}
 
 	// get user info
-	info, err := student.GetInfo(userId, wantFields)
+	info, err := role.GetInfo(userId, wantFields)
 	if err != 0 {
 		switch err {
 		case -1:

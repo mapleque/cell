@@ -4,7 +4,7 @@ import (
 	. "github.com/coral"
 
 	. "github.com/cell/constant"
-	"github.com/cell/service/student"
+	"github.com/cell/service/role"
 	"github.com/cell/service/user"
 )
 
@@ -12,7 +12,7 @@ import (
 // @review
 // 修改学生信息
 // @filter
-func UpdateStudentInfo(context *Context) bool {
+func UpdateInfo(context *Context) bool {
 	params := Map(context.Params["data"])
 	token := String(params["token"])
 	fields := Map(params["fields"])
@@ -30,7 +30,7 @@ func UpdateStudentInfo(context *Context) bool {
 		return RTBool(false)
 	}
 
-	err = student.UpdateInfo(userId, fields)
+	err = role.UpdateInfo(userId, fields)
 	if err != 0 {
 		switch err {
 		case -1:

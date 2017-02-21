@@ -35,6 +35,9 @@ func DefaultFilter(context *coral.Context) bool {
 <meta charset='utf-8'>
 <title>cell</title>
 <h1>cell</h1>
-<p>api doc <a href='/doc'>@see</a></p>`
+<p>api doc <a href='/doc'>@see</a></p>
+<p>more infomation see <a href='https://github.com/mapleque/cell'>
+source code @github
+</a></p>`
 	return true
 }

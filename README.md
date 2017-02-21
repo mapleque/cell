@@ -1,17 +1,10 @@
 ## 项目说明
 
-> 什么属于用户中心范畴
+> 本项目功能主要包括
 - 用户登录、登出（passport模块）
 - 用户注册、邀请、基本信息管理（info模块）
 - 用户资源体系（source模块）
 - 用户特权体系（feature模块）
-
-> 什么不属于用户中心范畴
-- 用户支付相关信息（支付中心）
-- 用户作业相关信息（业务线）
-- 用户游戏相关信息（业务线）
-- 用户学习相关信息（业务线）
-- 其他业务相关信息（业务线）
 
 ## 文件组织
 ```
@@ -29,8 +22,7 @@
     |- deploy                   # 部署相关
     |   |- sql                      # 当前数据库初始化sql
     |   |   |- user.sql                 # user_system表
-    |   |   |- student.sql              # student表
-    |   |   |- teacher.sql              # teacher表
+    |   |   |- role.sql                 # role表
     |   |   |- product.sql              # product表
     |   |   |- resource.sql             # resource表
     |   |   |- feature.sql              # feauter表
@@ -63,9 +55,8 @@
     |- service                  # 业务逻辑代码实现
     |   |- user                     # 系统用户信息相关操作
     |   |   |- user.go
-    |   |- student                  # 学生用户信息相关操作
-    |   |   |- student.go
-    |   |- teacher                  # 教师用户信息相关操作
+    |   |- role                     # 用户信息相关操作
+    |   |   |- role.go
     |   |- resource                 # 计数资源相关操作
     |   |   |- resource.go
     |   |- feature                  # 计时资源相关操作
@@ -84,8 +75,8 @@ API 参数说明 @see /doc
 |   |- login            1.0
 |   |- logout           tbd
 |- info
-|   |- check-student    1.0
-|   |- update-student   1.0
+|   |- check            1.0
+|   |- update           1.0
 |   |- register         1.0
 |- resource
 |   |- check            tbd
@@ -118,14 +109,14 @@ user passport
                          |                  | <-----------+
                          |                  |
                    token |                  |
-                  fields ------------> info/check-student ----+
-                         |                  |                 | student info
-                         | <----------------------------------+
+                  fields ------------> info/check --------+
+                         |                  |             | role info
+                         | <------------------------------+
                          |                  |
                    token |                  |
-                  fields ------------> info/update-student ----+
-                         |                  |                  |
-                         |                  | <----------------+
+                  fields ------------> info/update -------+
+                         |                  |             |
+                         |                  | <-----------+
 ```
 product manage
 ```
@@ -185,16 +176,10 @@ user product
 ## 数据设计
 数据库表关系如下：
 ```
-                     |-------- teacher *tbd
-                     |-------- student
+                     |-------- role
      user -----------|-------- resource --------|-------- product
                      |-------- feature ---------|
 ```
-数据层扩展：
-1. 分区，所有user相关表，都可以根据user_id分区；所有product相关表，都可以根据product_id分区。
-2. nosql，所有user相关表，都可以转为以user_id为key的kv数据。
-3. 缓存，所有user相关表，都可以增加读缓存、写更新缓存策略。
-
 ## 技术细节
 
 #### 用户密码加密
