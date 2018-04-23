@@ -1,5 +1,9 @@
 package cell
 
+import (
+	"github.com/mapleque/kelp/web"
+)
+
 // POST /token
 // Content-Type: application/x-www-form-urlencoded
 // Authorization: Basic czZCaGRSa3F0MzpnWDFmQmF0M2JW
@@ -7,7 +11,6 @@ package cell
 // grant token params:
 // - grant_type
 //     - authorization_code
-// TODO
 // - code
 // - redirect_uri
 // - client_id
@@ -43,5 +46,5 @@ package cell
 //     - invalid_scope
 // - error_description
 // - error_uri
-func HandleToken(c *web.Context) {
+func (this *Server) HandleToken(c *web.Context) {
 }

@@ -1,0 +1,11 @@
+<!doctype html>
+<Form action='/auth' method='POST'>
+    <p>{{.ClientName}}申请获取{{.Scope}}权限，是否授权？</p>
+    <Input type='hidden' name='response_type' value='{{.ResponseType}}'>
+    <Input type='hidden' name='client_id' value='{{.ClientId}}'>
+    <Input type='hidden' name='redirect_uri' value='{{.RedirectUri}}'>
+    <Input type='hidden' name='scope' value='{{.Scope}}'>
+    <Input type='hidden' name='state' value='{{.State}}'>
+    <Input type='submit' value='授权'>
+    <Input type='button' value='取消'>
+</Form>

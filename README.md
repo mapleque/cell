@@ -1,11 +1,15 @@
 Cell
 ====
+用户认证授权服务
+
+- [首页](https://cell.mapleque.com)
+- [OpenID Configuration](https://cell.mapleque.com/.well-known/openid-configuration)
 
 相关协议
 ----
 
-- OAuth2.0[RFC6749](https://tools.ietf.org/html/rfc6749)
-- JWT[RFC7519](https://tools.ietf.org/html/rfc7519)
+- OAuth2.0([RFC6749](https://tools.ietf.org/html/rfc6749))
+- JWT([RFC7519](https://tools.ietf.org/html/rfc7519))
 - [OpenID Connect 1.0](https://openid.net/specs/openid-connect-discovery-1_0.html)
 
 协议流程：
@@ -60,10 +64,10 @@ Cell
 
 ```
 
-A. 客户端引导用户进入认证服务授权页
-B. 用户在认证服务授权给客户端
-C. 认证服务将授权码回调给客户端
-D. 客户端收到回调后，使用授权码请求认证服务
-E. 认证服务返回Access Token
+- A. 客户端引导用户进入认证服务授权页
+- B. 用户在认证服务授权给客户端
+- C. 认证服务将授权码回调给客户端
+- D. 客户端收到回调后，使用授权码请求认证服务
+- E. 认证服务返回Access Token
 
 
