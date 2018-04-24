@@ -12,14 +12,21 @@ const (
 	ERROR_INVALID_SCOPE             = "invalid_scope"
 	ERROR_SERVER_ERROR              = "server_error"
 	ERROR_TEMPORARILY_UNAVAILABLE   = "temporarily_unavailable"
+	ERROR_INVALID_CLIENT            = "invalid_client"
+	ERROR_INVALID_GRANT             = "invalid_grant"
+	ERROR_UNSUPPORTED_GRANT_TYPE    = "unsupported_grant_type"
 )
 
 type Server struct {
-	ds IDataService
+	ds           IDataService
+	templatePath string
 }
 
-func NewServer(ds IDataService) *Server {
-	return &Server{ds}
+func NewServer(ds IDataService, templatePath string) *Server {
+	return &Server{
+		ds:           ds,
+		templatePath: templatePath,
+	}
 }
 
 func (this *Server) Serve(host string) {
@@ -43,5 +50,24 @@ func (this *Server) Serve(host string) {
 	server.GET("/auth", this.HandleAuthPage)
 	server.POST("/auth", this.HandleAuth)
 	server.POST("/token", this.HandleToken)
+	server.POST("/userinfo", this.HandleUserinfo)
 	server.Run()
 }
+
+func (this *Server) tpl(c *web.Context, file string, data interface{}) {
+	t := template.Must(template.ParseFiles(this.templatePath + file))
+	t.Execute(c.ResponseWriter, data)
+}
+
+type Tips struct {
+	Status Status
+	Tips   string
+}
+
+type Status string
+
+const (
+	SUCCESS Status = "success"
+	WARNING        = "warning"
+	ERROR          = "error"
+)

@@ -6,63 +6,6 @@ import (
 	"net/url"
 )
 
-// GET /auth
-// Content-Type: application/x-www-form-urlencoded
-// params:
-// - response_type
-//     - code
-//     - token
-//     - id_token
-//     - code token
-//     - code id_token
-//     - token id_token
-//     - code token id_token
-//     - none
-// - client_id
-// - redirect_uri
-// - scope
-//     - openid
-//     - email
-//     - profile
-// - state
-//
-// code response:
-// 302
-// Location redirect_uri with params:
-// - code
-// - state
-//
-// token response:
-// 302
-// Location redirect_uri with params:
-// - access_token
-// - token_type
-//     - bearer
-// - expires_in
-// - scope
-//     - openid
-//     - email
-//     - profile
-// - state
-//
-// id_token response:
-// - id_token
-// - state
-//
-// error response:
-// 302
-// Location redirect_uri with params:
-// - error
-//     - invalid_request
-//     - unauthorized_client
-//     - access_denied
-//     - unsupported_response_type
-//     - invalid_scope
-//     - server_error
-//     - temporarily_unavailable
-// - error_description
-// - error_uri
-// - state
 func (this *Server) HandleAuthPage(c *web.Context) {
 	responseType := c.QueryDefault("response_type", "")
 	clientId := c.QueryDefault("client_id", "")
@@ -89,8 +32,7 @@ func (this *Server) HandleAuthPage(c *web.Context) {
 	if !ok {
 		c.Redirect(302, errorLocation(redirectUri, ERROR_UNAUTHORIZED_CLIENT))
 	}
-	t := template.Must(template.ParseFiles("../tpl/auth.html"))
-	t.Execute(c.ResponseWriter, struct {
+	this.tpl(c, "auth.html", struct {
 		ResponseType string
 		Scope        string
 		ClientId     string
@@ -137,9 +79,24 @@ func successLocation(uri string, resp map[string]string) string {
 }
 
 func checkSupportResponseType(responseType string) bool {
-	return true
+	switch responseType {
+	case "code",
+		"token",
+		"id_token",
+		"code token",
+		"code id_token",
+		"token id_token",
+		"code token id_token",
+		"none":
+		return true
+	}
+	return false
 }
 
 func checkSupportScope(scope string) bool {
-	return true
+	switch scooe {
+	case "openid", "email", "profile":
+		return true
+	}
+	return false
 }
