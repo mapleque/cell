@@ -1,9 +1,9 @@
 {
     "issuer":"https://cell.mapleque.com",
-    "authorization_endpoint":"https://cell.mapleque.com/auth",
-    "token_endpoint":"https://cell.mapleque.com/token",
-    "userinfo_endpoint":"https://cell.mapleque.com/userinfo",
-    "jwks_uri":"https://cell.mapleque.com/certs",
+    "authorization_endpoint":"https://cell.mapleque.com/api/oidc/auth",
+    "token_endpoint":"https://cell.mapleque.com/api/oidc/token",
+    "userinfo_endpoint":"https://cell.mapleque.com/api/oidc/userinfo",
+    "jwks_uri":"https://cell.mapleque.com/api/oidc/certs",
     "scopes_supported":[
         "openid",
         "email",
@@ -31,8 +31,6 @@
     ],
     "claims_supported":[
         "email",
-        "name",
-        "avatar",
         "exp",
         "iss",
         "iat",
