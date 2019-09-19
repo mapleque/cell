@@ -1,2 +1,4 @@
 unittest
 cell
+bin/
+.env

@@ -1,5 +1,7 @@
 package server
 
+import "net/http"
+
 func (s *Server) handleAppCreate(w http.ResponseWriter, r *http.Request) {
 }
 

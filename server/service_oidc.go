@@ -1,5 +1,11 @@
 package server
 
+import (
+	"database/sql"
+
+	"github.com/mapleque/cell/jwt"
+)
+
 // Oidc oidc service
 type Oidc struct {
 	Keys []*jwt.RsaKeySet `json:"keys"`
@@ -26,10 +32,10 @@ func (oidc *Oidc) AddKeyPair(keyID, publicKey, privateKey string) {
 		"RS256",
 	)
 	if err != nil {
-		oidc.log.Error("add key pair error", err)
+		oidc.log.Printf("[Error] add key pair error %v\n", err)
 		return
 	}
-	this.Keys = append(this.Keys, ks)
+	oidc.Keys = append(oidc.Keys, ks)
 }
 
 // GetKeys get the jwks
@@ -53,7 +59,19 @@ type OidcClient struct {
 
 // FindClient find oidc client by client id
 func (oidc *Oidc) FindClient(clientID string) (*OidcClient, bool) {
-	// TODO
+	oc := &OidcClient{}
+	err := oidc.db.QueryRowContext(
+		dbCtx,
+		"SELECT `app_id`, `description`, `oidc_redirect_uri` FROM `app` WHERE `app_id`=? LIMIT 1",
+		clientID,
+	).Scan(&oc.ClientID, &oc.ClientDesc, &oc.RedirectURI)
+	switch {
+	case err == sql.ErrNoRows:
+		return nil, false
+	case err != nil:
+		panic(err)
+	}
+	return oc, true
 }
 
 // OidcCode oidc code entity
@@ -78,7 +96,12 @@ func (oidc *Oidc) Auth(
 	state string,
 ) (*OidcCode, error) {
 
-	code := &OidcCode{}
+	code := &OidcCode{
+		Code:  RandToken(),
+		State: state,
+	}
+	code.Code = RandToken()
+	code.State = state
 
 	// TODO general code and save
 
@@ -86,8 +109,22 @@ func (oidc *Oidc) Auth(
 }
 
 // CheckClient check the client id and secret match or not
-func (oidc *Oidc) CheckClient(id, secret string) bool {
-	// TODO
+func (oidc *Oidc) CheckClient(appID, secret string) bool {
+	var id int64
+	err := oidc.db.QueryRowContext(
+		dbCtx,
+		"SELECT `id` FROM `app` WHERE `app_id`=? AND `secret`=? LIMIT 1",
+		appID,
+		secret,
+	).Scan(&id)
+	switch {
+	case err == sql.ErrNoRows:
+		return false
+	case err != nil:
+		panic(err)
+	default:
+		return true
+	}
 }
 
 // OidcToken oidc token entity

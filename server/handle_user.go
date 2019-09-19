@@ -1,5 +1,7 @@
 package server
 
+import "net/http"
+
 type userLoginParam struct {
 	EncST            string `json:"enc_st"`
 	EncAuthenticator string `json:"enc_authenticator"`
@@ -20,7 +22,7 @@ func (s *Server) handleUserLogin(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	token := s.auth.Login(w, username)
+	token := s.auth.Login(w, r, username)
 	resp(w, 0, token)
 }
 
@@ -37,38 +39,41 @@ type userRegisterParam struct {
 
 func (s *Server) handleUserCaptcha(w http.ResponseWriter, r *http.Request) {
 	in := &userRegisterParam{}
-	err := bind(r, in)
-	if err != nil {
+	if err := bind(r, in); err != nil {
 		resp(w, 10001, err)
 		return
 	}
 
-	err := checkEmailAddress(in.Username)
-	if err != nil {
+	if err := checkEmailAddress(in.Username); err != nil {
 		resp(w, 10001, err)
 		return
 	}
 
-	err := s.auth.SendCaptcha(in.Username)
+	if s.auth.CheckUserExist(in.Username) {
+		resp(w, 10001, "该账号已注册")
+		return
+	}
+
+	if err := s.auth.SendCaptcha(in.Username, "Cell: 您注册的验证码", "register.html"); err != nil {
+		resp(w, 11001, err)
+		return
+	}
 	resp(w, 0, nil)
 }
 
 func (s *Server) handleUserRegister(w http.ResponseWriter, r *http.Request) {
 	in := &userRegisterParam{}
-	err := bind(r, in)
-	if err != nil {
+	if err := bind(r, in); err != nil {
 		resp(w, 10001, err)
 		return
 	}
 
-	err := s.auth.CheckCaptcha(in.Username, in.Captcha)
-	if err != nil {
+	if err := s.auth.CheckCaptcha(in.Username, in.Captcha); err != nil {
 		resp(w, 10001, err)
 		return
 	}
 
-	err := s.auth.Register(in.Username, in.Password)
-	if err != nil {
+	if err := s.auth.Register(in.Username, in.Password); err != nil {
 		resp(w, 11002, err)
 		return
 	}
@@ -77,38 +82,41 @@ func (s *Server) handleUserRegister(w http.ResponseWriter, r *http.Request) {
 
 func (s *Server) handleUserForgot(w http.ResponseWriter, r *http.Request) {
 	in := &userRegisterParam{}
-	err := bind(r, in)
-	if err != nil {
+	if err := bind(r, in); err != nil {
 		resp(w, 10001, err)
 		return
 	}
 
-	err := checkEmailAddress(in.Username)
-	if err != nil {
+	if err := checkEmailAddress(in.Username); err != nil {
 		resp(w, 10001, err)
 		return
 	}
 
-	err := s.auth.SendCaptcha(in.Username)
+	if !s.auth.CheckUserExist(in.Username) {
+		resp(w, 10001, "该账号尚未注册")
+		return
+	}
+
+	if err := s.auth.SendCaptcha(in.Username, "Cell: 您正在申请重置密码", "forgot.html"); err != nil {
+		resp(w, 11001, err)
+		return
+	}
 	resp(w, 0, nil)
 }
 
 func (s *Server) handleUserReset(w http.ResponseWriter, r *http.Request) {
 	in := &userRegisterParam{}
-	err := bind(r, in)
-	if err != nil {
+	if err := bind(r, in); err != nil {
 		resp(w, 10001, err)
 		return
 	}
 
-	err := s.auth.CheckCaptcha(in.Username, in.Captcha)
-	if err != nil {
+	if err := s.auth.CheckCaptcha(in.Username, in.Captcha); err != nil {
 		resp(w, 10001, err)
 		return
 	}
 
-	err := s.auth.ResetPassword(in.Username, in.Password)
-	if err != nil {
+	if err := s.auth.ResetPassword(in.Username, in.Password); err != nil {
 		resp(w, 11002, err)
 		return
 	}
@@ -120,4 +128,9 @@ func (s *Server) handleUserProfile(w http.ResponseWriter, r *http.Request) {
 	// user info
 	// grant info
 	// app info
+}
+
+func checkEmailAddress(email string) error {
+	// TODO
+	return nil
 }

@@ -42,6 +42,21 @@ func resp(w http.ResponseWriter, status int, data interface{}) {
 	w.Write(rt)
 }
 
+func respRaw(w http.ResponseWriter, status int, data interface{}) {
+	var rt []byte
+	if status == 0 {
+		rt, _ = json.Marshal(data)
+	} else {
+		msg, exist := responseMessage[status]
+		if !exist {
+			msg = "未知错误类型"
+		}
+		rt, _ = json.Marshal(response{status, msg, nil})
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(rt)
+}
+
 func bind(r *http.Request, tar interface{}) interface{} {
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
@@ -55,7 +70,7 @@ func bind(r *http.Request, tar interface{}) interface{} {
 }
 
 func (s *Server) handleAPI(path string, handler http.HandlerFunc) {
-	s.h.HandleFunc("/api"+path, func(w http.ResponseWriter, r *http.Request) {
+	s.handler.HandleFunc("/api"+path, func(w http.ResponseWriter, r *http.Request) {
 		status := "SUCC"
 		// 请求结束，打印日志
 		defer func(start time.Time) {
@@ -80,6 +95,6 @@ func (s *Server) handleAPI(path string, handler http.HandlerFunc) {
 			}
 		}()
 
-		handle(w, r)
+		handler(w, r)
 	})
 }

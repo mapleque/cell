@@ -3,8 +3,8 @@ package server
 import "net/http"
 
 func (s *Server) initRouter() {
-	s.h.Handle("/", http.FileServer(http.Dir(s.staticPath)))
-	s.h.Handle(
+	s.handler.Handle("/", http.FileServer(http.Dir(s.staticPath)))
+	s.handler.Handle(
 		"/.well-known/openid-configuration",
 		http.FileServer(http.Dir(s.staticPath+"openid-configuration.json")),
 	)

@@ -8,26 +8,24 @@ func (s *Server) handleOidcCerts(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) handleOidcAuthinfo(w http.ResponseWriter, r *http.Request) {
-	state := c.QueryDefault("state", "")
-
-	responseType := c.QueryDefault("response_type", "")
+	responseType := r.FormValue("response_type")
 	if !checkSupportResponseType(responseType) {
 		resp(w, 10001, "不支持的response_type")
 	}
 
-	scope := c.QueryDefault("scope", "")
+	scope := r.FormValue("scope")
 	if !checkSupportScope(scope) {
 		resp(w, 10001, "不支持的scope")
 		return
 	}
 
-	clientID := c.QueryDefault("client_id", "")
+	clientID := r.FormValue("client_id")
 	if clientID == "" {
 		resp(w, 10001, "client_id不能为空")
 		return
 	}
 
-	client, exist := s.oidc.FindClient(cliendID)
+	client, exist := s.oidc.FindClient(clientID)
 	if !exist {
 		resp(w, 11001, "client_id未注册")
 		return
@@ -56,7 +54,7 @@ func (s *Server) handleOidcAuthed(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	code, err := this.oidc.Auth(
+	code, err := s.oidc.Auth(
 		user,
 		responseType,
 		clientID,
@@ -139,7 +137,7 @@ func (s *Server) handleOidcUserinfo(w http.ResponseWriter, r *http.Request) {
 }
 
 func checkSupportScope(scope string) bool {
-	switch scooe {
+	switch scope {
 	case "openid", "email", "profile":
 		return true
 	}
