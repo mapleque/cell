@@ -8,12 +8,9 @@ import (
 	"time"
 )
 
-// RandToken RandToken general a 64 bytes random string.
-//
-// The token combine with 2 random md5 (64 bytes),
-// which charactors order has been rebuild as a new strange mode.
+// RandToken RandToken general a 32 bytes random string.
 func RandToken() string {
-	return RandMd5() + RandMd5()
+	return RandMd5()
 }
 
 func RandMd5() string {

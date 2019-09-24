@@ -2,8 +2,10 @@ package server
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
+	"runtime"
 	"strings"
 	"time"
 )
@@ -32,6 +34,10 @@ func resp(w http.ResponseWriter, status int, data interface{}) {
 	if !exist {
 		msg = "未知错误类型"
 	}
+	if err, ok := data.(error); ok {
+		data = err.Error()
+	}
+
 	ret := response{
 		status,
 		msg,
@@ -44,15 +50,11 @@ func resp(w http.ResponseWriter, status int, data interface{}) {
 
 func respRaw(w http.ResponseWriter, status int, data interface{}) {
 	var rt []byte
-	if status == 0 {
-		rt, _ = json.Marshal(data)
-	} else {
-		msg, exist := responseMessage[status]
-		if !exist {
-			msg = "未知错误类型"
-		}
-		rt, _ = json.Marshal(response{status, msg, nil})
+	if err, ok := data.(error); ok {
+		data = err.Error()
 	}
+
+	rt, _ = json.Marshal(data)
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(rt)
 }
@@ -89,7 +91,7 @@ func (s *Server) handleAPI(path string, handler http.HandlerFunc) {
 		// 拦截接口处理逻辑中的panic，并标记请求失败
 		defer func() {
 			if err := recover(); err != nil {
-				s.log.Printf("[Error] %v\n", err)
+				s.log.Printf("[Error] panic: %v\n%v\n", err, callstack())
 				status = "FAIL"
 				resp(w, 10000, nil)
 			}
@@ -97,4 +99,20 @@ func (s *Server) handleAPI(path string, handler http.HandlerFunc) {
 
 		handler(w, r)
 	})
+}
+
+func callstack() []interface{} {
+	var cs []interface{}
+	cs = append(cs, "Callstack:\n") // start with a new line
+	for skip := 0; ; skip++ {
+		_, file, line, ok := runtime.Caller(skip)
+		if !ok {
+			break
+		}
+		// remove golang std package callstack
+		if !strings.Contains(file, "/golang/src/") {
+			cs = append(cs, fmt.Sprintf("%s:%d\n", file, line))
+		}
+	}
+	return cs
 }

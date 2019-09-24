@@ -51,7 +51,7 @@ func (k *Kerberos) Auth(username string) (*KerberosAuthResult, error) {
 	// find password from db
 	var password string
 	err := k.db.QueryRowContext(
-		dbCtx,
+		dbCtx(),
 		"SELECT `password` FROM `user` WHERE `username`=? LIMIT 1",
 		username,
 	).Scan(&password)
@@ -103,29 +103,34 @@ func (k *Kerberos) Grant(encTGT, appID, encAuthenticator string) (*KerberosGrant
 	}
 
 	var appSecret string
-	err := k.db.QueryRowContext(
-		dbCtx,
-		"SELECT `secret` FROM `app` WHERE `app_id`=? LIMIT 1",
-		appID,
-	).Scan(&appSecret)
-	switch {
-	case err == sql.ErrNoRows:
-		return nil, errAppNotExist
-	case err != nil:
-		panic(err)
+	if appID == "cell" {
+		appSecret = k.appSecretKey
+	} else {
+		err := k.db.QueryRowContext(
+			dbCtx(),
+			"SELECT `secret` FROM `app` WHERE `app_id`=? LIMIT 1",
+			appID,
+		).Scan(&appSecret)
+		switch {
+		case err == sql.ErrNoRows:
+			return nil, errAppNotExist
+		case err != nil:
+			panic(err)
+		}
 	}
 
 	st := &kerberosServiceTicket{
+		CSSK:     RandToken(),
 		Username: authenticator.Username,
 		Expired:  time.Now().Add(2 * time.Hour).Unix(),
 	}
 
+	encCSSK := k.encrypt(st.CSSK, tgt.CTSK)
 	encST := k.encrypt(st, appSecret)
-	encCSSK := k.encrypt(RandToken(), tgt.CTSK)
 
 	res := &KerberosGrantResult{
-		encST,
 		encCSSK,
+		encST,
 	}
 	return res, nil
 }

@@ -47,7 +47,7 @@ func DecryptAesEcbBase64(data, key string) ([]byte, error) {
 	blockSize := block.BlockSize()
 	dst := make([]byte, 0)
 	tmp := make([]byte, blockSize)
-	if len(data)%blockSize != 0 {
+	if len(src)%blockSize != 0 {
 		return nil, errEncDataInvalid
 	}
 	for len(src) > 0 {

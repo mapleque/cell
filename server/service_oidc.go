@@ -61,7 +61,7 @@ type OidcClient struct {
 func (oidc *Oidc) FindClient(clientID string) (*OidcClient, bool) {
 	oc := &OidcClient{}
 	err := oidc.db.QueryRowContext(
-		dbCtx,
+		dbCtx(),
 		"SELECT `app_id`, `description`, `oidc_redirect_uri` FROM `app` WHERE `app_id`=? LIMIT 1",
 		clientID,
 	).Scan(&oc.ClientID, &oc.ClientDesc, &oc.RedirectURI)
@@ -112,7 +112,7 @@ func (oidc *Oidc) Auth(
 func (oidc *Oidc) CheckClient(appID, secret string) bool {
 	var id int64
 	err := oidc.db.QueryRowContext(
-		dbCtx,
+		dbCtx(),
 		"SELECT `id` FROM `app` WHERE `app_id`=? AND `secret`=? LIMIT 1",
 		appID,
 		secret,

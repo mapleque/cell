@@ -1,14 +1,40 @@
 Cell
 ====
 
-用户认证授权服务
+用户认证管理服务
 
-- [首页](https://cell.mapleque.com)
-- [OpenID Configuration](https://cell.mapleque.com/.well-known/openid-configuration)
 
-相关协议
+使用方法
 ----
 
-- OAuth2.0([RFC6749](https://tools.ietf.org/html/rfc6749))
-- JWT([RFC7519](https://tools.ietf.org/html/rfc7519))
-- [OpenID Connect 1.0](https://openid.net/specs/openid-connect-discovery-1_0.html)
+### 使用官方服务
+https://cell.mapleque.com
+
+###  使用Docker
+
+### 下载发布包
+
+### 自行编译安装
+
+环境要求：
+- go 1.11.2 darwin/amd64
+- node 10.15.0
+
+```sh
+git clone https://github.com/mapleque/cell.git
+cd cell
+make install
+cd bin
+# edit .env for config
+./server
+```
+
+### 开发环境调试
+
+```sh
+git clone https://github.com/mapleque/cell.git
+cd cell
+cp config/.env.example main/.env
+# edit main/.env for config
+make run
+```

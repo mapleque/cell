@@ -1,0 +1,20 @@
+{
+  "short_name": "Cell",
+  "name": "Cell -- An opensource user service",
+  "icons": [
+    {
+      "src": "16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "500.png",
+      "type": "image/png",
+      "sizes": "500x500"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}

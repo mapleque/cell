@@ -15,6 +15,7 @@ type DB interface {
 	QueryRowContext(ctx context.Context, query string, args ...interface{}) *sql.Row
 }
 
-var (
-	dbCtx, _ = context.WithTimeout(context.Background(), 10*time.Second)
-)
+func dbCtx() context.Context {
+	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
+	return ctx
+}

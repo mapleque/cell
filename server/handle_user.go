@@ -3,8 +3,9 @@ package server
 import "net/http"
 
 type userLoginParam struct {
-	EncST            string `json:"enc_st"`
-	EncAuthenticator string `json:"enc_authenticator"`
+	EncST            string `json:"st"`
+	EncAuthenticator string `json:"authenticator"`
+	Remember         bool   `json:"remember"`
 }
 
 func (s *Server) handleUserLogin(w http.ResponseWriter, r *http.Request) {
@@ -22,7 +23,7 @@ func (s *Server) handleUserLogin(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	token := s.auth.Login(w, r, username)
+	token := s.auth.Login(w, r, username, in.Remember)
 	resp(w, 0, token)
 }
 
