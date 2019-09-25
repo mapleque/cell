@@ -14,4 +14,5 @@ var (
 	errAppNotExist          = errors.New("应用未注册")
 	errEncDataInvalid       = errors.New("错误的密文数据")
 	errSendMail             = errors.New("邮件发送错误，请稍后重试")
+	errAPPNameInvalid       = errors.New("应用名称不能为空")
 )

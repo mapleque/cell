@@ -25,6 +25,7 @@ func NewAuth(db DB, log Logger, mail *Mail) *Auth {
 
 // AuthUser authed user entity
 type AuthUser struct {
+	ID        int64  `json:"id"`
 	Username  string `json:"username"`
 	LastLogin string `json:"last_login"`
 }
@@ -46,16 +47,17 @@ func (auth *Auth) GetUser(r *http.Request) (*AuthUser, error) {
 	token := cookie.Value
 	user := &AuthUser{}
 	var (
-		id      int64
 		expired time.Time
 	)
 	err = auth.db.QueryRowContext(
 		dbCtx(),
-		"SELECT `username`, `last_login`, `expired_at` FROM `user_auth` "+
-			"WHERE `app_id` = ? AND `token` = ? AND expired_at > NOW() LIMIT 1",
+		"SELECT `id`, `username`, `last_login`, `expired_at` "+
+			"FROM `user_auth` "+
+			"WHERE `app_id` = ? AND `token` = ? AND expired_at > NOW() "+
+			"LIMIT 1",
 		appID,
 		token,
-	).Scan(&id, &user.Username, &user.LastLogin, &expired)
+	).Scan(&user.ID, &user.Username, &user.LastLogin, &expired)
 	switch {
 	case err == sql.ErrNoRows:
 		return nil, errAuthTokenInvalid
@@ -66,8 +68,10 @@ func (auth *Auth) GetUser(r *http.Request) (*AuthUser, error) {
 	if expired.Before(time.Now().Add(30 * time.Minute)) {
 		_, _ = auth.db.ExecContext(
 			dbCtx(),
-			"UPDATE `user_auth` SET `expired_at`=DATE_ADD(NOW(),INTERVAL 1 HOUR) WHERE `id`=? LIMIT 1",
-			id,
+			"UPDATE `user_auth` "+
+				"SET `expired_at`=DATE_ADD(NOW(),INTERVAL 1 HOUR) "+
+				"WHERE `id`=? LIMIT 1",
+			user.ID,
 		)
 	}
 	return user, nil
@@ -76,7 +80,13 @@ func (auth *Auth) GetUser(r *http.Request) (*AuthUser, error) {
 // Login just login with username
 //
 // No need to check password here
-func (auth *Auth) Login(w http.ResponseWriter, r *http.Request, username string, remember bool) string {
+func (auth *Auth) Login(
+	w http.ResponseWriter,
+	r *http.Request,
+	username string,
+	remember bool,
+) string {
+
 	if _, err := auth.db.ExecContext(
 		dbCtx(),
 		"INSERT IGNORE INTO `user_auth` "+
@@ -94,7 +104,10 @@ func (auth *Auth) Login(w http.ResponseWriter, r *http.Request, username string,
 	token := RandToken()
 	if _, err := auth.db.ExecContext(
 		dbCtx(),
-		"UPDATE `user_auth` SET `token`=?,`ip`=?,`expired_at`=DATE_ADD(NOW(), INTERVAL 1 HOUR),`last_login`=NOW() "+
+		"UPDATE `user_auth` "+
+			"SET `token`=?,`ip`=?,"+
+			"`expired_at`=DATE_ADD(NOW(), INTERVAL 1 HOUR),"+
+			"`last_login`=NOW() "+
 			"WHERE `app_id`=? AND `username`=? LIMIT 1",
 		token,
 		r.RemoteAddr,
@@ -132,7 +145,8 @@ func (auth *Auth) Logout(w http.ResponseWriter, r *http.Request) {
 	token := cookie.Value
 	if _, err := auth.db.ExecContext(
 		dbCtx(),
-		"UPDATE `user_auth` SET `token`=NULL,`expired_at`=NOW() WHERE `app_id`=? AND `token`=? LIMIT 1",
+		"UPDATE `user_auth` SET `token`=NULL,`expired_at`=NOW() "+
+			"WHERE `app_id`=? AND `token`=? LIMIT 1",
 		appID,
 		token,
 	); err != nil {
@@ -167,7 +181,8 @@ func (auth *Auth) SendCaptcha(username, subject, template string) error {
 		"INSERT INTO `user_captcha` "+
 			"(`username`, `captcha`, `expired_at`) "+
 			"VALUES (?,?,DATE_ADD(NOW(), INTERVAL 5 MINUTE)) "+
-			"ON DUPLICATE KEY UPDATE `captcha`=?,`expired_at`=DATE_ADD(NOW(), INTERVAL 5 MINUTE)",
+			"ON DUPLICATE KEY UPDATE "+
+			"`captcha`=?,`expired_at`=DATE_ADD(NOW(), INTERVAL 5 MINUTE)",
 		username,
 		captcha,
 		captcha,
@@ -195,7 +210,9 @@ func (auth *Auth) CheckCaptcha(username, captcha string) error {
 	var id int64
 	err := auth.db.QueryRowContext(
 		dbCtx(),
-		"SELECT `id` FROM `user_captcha` WHERE `username`=? AND `captcha`=? AND `expired_at`>NOW() LIMIT 1",
+		"SELECT `id` FROM `user_captcha` "+
+			"WHERE `username`=? AND `captcha`=? AND `expired_at`>NOW() "+
+			"LIMIT 1",
 		username,
 		captcha,
 	).Scan(&id)
@@ -246,7 +263,8 @@ func (auth *Auth) Register(username, password string) error {
 func (auth *Auth) ResetPassword(username, password string) error {
 	if _, err := auth.db.ExecContext(
 		dbCtx(),
-		"UPDATE `user` SET `password`=?, `update_at`=NOW() WHERE `username`=? LIMIT 1",
+		"UPDATE `user` SET `password`=?, `update_at`=NOW() "+
+			"WHERE `username`=? LIMIT 1",
 		password,
 		username,
 	); err != nil {

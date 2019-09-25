@@ -9,33 +9,40 @@ class Server extends Component {
     this.state = {}
   }
 
-  async request(path, params) {
+  async request(path, params, options = {}) {
     const server = this.props.servers.find(server => {
       const r = server.path_rule
       const t = typeof r
       switch (t) {
-        case 'function':
-          return tryToCall(r, path)
-        case 'string':
-          return path.indexOf(r) >= 0
-        case 'boolean':
-          return r
-        case 'object':
-          if (r instanceof RegExp) {
-            return r.test(path)
-          }
-          console.error('unsupport object of path_rule', r)
-          break
-        default:
-          console.error('unsupport type of path_rule', t)
+      case 'function':
+        return tryToCall(r, path)
+      case 'string':
+        return path.indexOf(r) >= 0
+      case 'boolean':
+        return r
+      case 'object':
+        if (r instanceof RegExp) {
+          return r.test(path)
+        }
+        console.error('unsupport object of path_rule', r)
+        break
+      default:
+        console.error('unsupport type of path_rule', t)
       }
       return false
     })
-    return await this._request(server, path ,params)
+    return await this._request(server, path ,params, options)
   }
 
-  async _request(server, path, params) {
-    let request = {path, params, headers:{}, resp: null, err: null }
+  async _request(server, path, params, options) {
+    let request = {
+      path,
+      params,
+      options,
+      headers:{},
+      resp: null,
+      err: null,
+    }
     try {
       if (server) {
         // do something with server settings

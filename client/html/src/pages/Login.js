@@ -46,7 +46,7 @@ class Index extends Component {
     try {
       const { request } = this.props
       // using kerberos here
-      const { ctsk, tgt } = await request('/kerberos/auth', { username })
+      const { ctsk, tgt } = await request('/kerberos/auth', { username }, { throw_error: true })
       const userKey = md5(password)
 
       const ctKey = decrypt(ctsk, userKey)
@@ -57,7 +57,7 @@ class Index extends Component {
         tgt,
         app_id: 'cell',
         authenticator: encrypt(authenticator, ctKey),
-      })
+      }, { throw_error: true })
 
       const csKey = decrypt(cssk, ctKey)
 
@@ -65,7 +65,7 @@ class Index extends Component {
         st,
         authenticator: encrypt(authenticator, csKey),
         remember,
-      })
+      }, { throw_error: true })
 
       // Here if your want to deal no cookie permission scene,
       // your can store the token and put it in HTTP Header:
@@ -75,7 +75,15 @@ class Index extends Component {
       localStorage.setItem('_cell_session', JSON.stringify({ token, timestamp: timestamp() }))
       localStorage.setItem('_cell_authenticator', JSON.stringify(authenticator))
 
-      window.location.replace('/admin')
+      const { search } = window.location
+      if (search.length > 1) {
+        const redirect = search.substring(1).split('&').find(query => query.indexOf('redirect=') === 0)
+        if (redirect) {
+          window.location.replace(decodeURIComponent(redirect.substring(9)))
+          return
+        }
+      }
+      window.location.replace('/dashboard')
     } catch (e) {
       console.error(e)
       this.setState({errorMessage: e.message})
@@ -85,7 +93,10 @@ class Index extends Component {
   render() {
     const { getFieldDecorator } = this.props.form
     return (
-      <Form onSubmit={this.handleSubmit.bind(this)} style={{ margin: '150px auto', width: 300, position: 'relative', top: '50%' }}>
+      <Form
+        onSubmit={this.handleSubmit.bind(this)}
+        style={{ margin: '150px auto', width: 300, position: 'relative', top: '50%' }}
+      >
         {
           this.state.errorMessage !== null ? <Alert
             message={this.state.errorMessage}

@@ -22,10 +22,11 @@ class Header extends Component {
     return (
       <Fragment>
         <DocumentTitle title={this.getPageTitle(route.current)}/>
-        <Layout.Header style={{ background: '#fff' }}>
+        <Layout.Header style={{ background: '#fff', padding: 0 }}>
           <Link to='/' style={{
             height: 32,
-            margin: '16px 24px 15px 0',
+            width: 176,
+            margin: '16px 24px 15px',
             lineHeight: '32px',
             float: 'left',
             display: 'flex',

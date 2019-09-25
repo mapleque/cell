@@ -25,25 +25,25 @@ class User extends Component {
     const { profile } = this.state
     return profile ? (
       <Menu selectable={ false } mode='horizontal' style={{ height: 63, lineHeight: '64px', float: 'right', boxShadow: 'none' }}>
-        <Menu.Item title='Logout' style={{ float: 'right', padding: '0 10px' }}>
+        <Menu.Item title='Logout' style={{ float: 'right', padding: '0 10px', border: 'none' }}>
           <Link style={{ display: 'inline' }} to='/logout'>
             <Icon type='logout'/>
           </Link>
         </Menu.Item>
-        <Menu.Item title='Profile' style={{ float: 'right', padding: '0 10px' }}>
+        <Menu.Item title='Profile' style={{ float: 'right', padding: '0 10px', border: 'none' }}>
           <Link style={{ display: 'inline' }} to='/profile'>
             <Icon type='user'/>
           </Link>
         </Menu.Item>
-        <Menu.Item title='Dashboard' style={{ float: 'right', padding: '0 10px' }}>
-          <Link style={{ display: 'inline' }} to='/admin'>
+        <Menu.Item title='Dashboard' style={{ float: 'right', padding: '0 10px', border: 'none' }}>
+          <Link style={{ display: 'inline' }} to='/dashboard'>
             <Icon type='appstore'/>
           </Link>
         </Menu.Item>
       </Menu>
     ): (
-      <Menu selectable={ false } mode='horizontal' style={{ height: 63, lineHeight: '64px', float: 'right', boxShadow: 'none' }}>
-        <Menu.Item title='Login' style={{ float: 'right' }}>
+      <Menu selectable={ false } mode='horizontal' style={{ height: 63, lineHeight: '64px', float: 'right', boxShadow: 'none', border: 'none' }}>
+        <Menu.Item title='Login' style={{ float: 'right', border: 'none' }}>
           <Link to={'/login'}>
             <Icon type='login'/>
           </Link>

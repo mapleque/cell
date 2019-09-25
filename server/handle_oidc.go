@@ -11,6 +11,7 @@ func (s *Server) handleOidcAuthinfo(w http.ResponseWriter, r *http.Request) {
 	responseType := r.FormValue("response_type")
 	if !checkSupportResponseType(responseType) {
 		resp(w, 10001, "不支持的response_type")
+		return
 	}
 
 	scope := r.FormValue("scope")
@@ -38,6 +39,7 @@ func (s *Server) handleOidcAuthed(w http.ResponseWriter, r *http.Request) {
 	responseType := r.FormValue("response_type")
 	if !checkSupportResponseType(responseType) {
 		resp(w, 10001, "不支持的response_type")
+		return
 	}
 	scope := r.FormValue("scope")
 	if !checkSupportScope(scope) {

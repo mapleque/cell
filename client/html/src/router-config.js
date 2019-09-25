@@ -1,17 +1,13 @@
 import WebLayout from './layouts/Web'
-import AdminLayout from './layouts/Admin'
 
 import Page404 from './pages/Page404'
 import Home from './pages/Home'
 import Login from '@/pages/Login'
+import Logout from '@/pages/Logout'
 import Register from '@/pages/Register'
+import Dashboard from '@/pages/Dashboard'
 
 export default [
-  {
-    path: '/404',
-    component: Page404,
-    hideInMenu: true,
-  },
   {
     path: '/',
     component: WebLayout,
@@ -22,9 +18,19 @@ export default [
         component: Home,
       },
       {
+        path: '/404',
+        component: Page404,
+        hideInMenu: true,
+      },
+      {
         path: '/login',
         name: 'Login',
         component: Login,
+      },
+      {
+        path: '/logout',
+        name: 'Logout',
+        component: Logout,
       },
       {
         path: '/register',
@@ -41,17 +47,11 @@ export default [
         name: 'Reset Password',
         component: Page404,
       },
-    ],
-  },
-  {
-    path: '/admin',
-    component: AdminLayout,
-    routes: [
       {
-        path: '/admin',
+        path: '/dashboard',
         name: 'Dashboard',
-        component: Page404,
+        component: Dashboard,
       },
     ],
-  },
+  }
 ]

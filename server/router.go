@@ -37,6 +37,11 @@ func (s *Server) initRouter() {
 		s.handleAPI("/user/reset", s.handleUserReset)
 		s.handleAPI("/user/profile", s.handleUserProfile)
 	}
+	// /api/authorization
+	{
+		s.handleAPI("/authorization/list", s.handleAuthorizationList)
+		s.handleAPI("/authorization/delete", s.handleAuthorizationDelete)
+	}
 	// /api/app
 	{
 		s.handleAPI("/app/create", s.handleAppCreate)

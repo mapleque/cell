@@ -12,7 +12,7 @@ class Footer extends Component {
       <Layout.Footer style={{
         textAlign: 'center',
         background: '#fff',
-        padding: '0, 50px',
+        padding: '0',
       }}>
         <div style={{
           borderTop: '1px solid #e8e8e8',
