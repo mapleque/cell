@@ -6,6 +6,9 @@ import Login from '@/pages/Login'
 import Logout from '@/pages/Logout'
 import Register from '@/pages/Register'
 import Dashboard from '@/pages/Dashboard'
+import Document from '@/pages/Document'
+import Contribution from '@/pages/Contribution'
+import Deployment from '@/pages/Deployment'
 
 export default [
   {
@@ -19,8 +22,23 @@ export default [
       },
       {
         path: '/404',
+        name: 'Page Not Found',
         component: Page404,
-        hideInMenu: true,
+      },
+      {
+        path: '/document',
+        name: 'Document',
+        component: Document,
+      },
+      {
+        path: '/deployment',
+        name: 'Deployment',
+        component: Deployment,
+      },
+      {
+        path: '/contribution',
+        name: 'Contribution',
+        component: Contribution,
       },
       {
         path: '/login',

@@ -43,16 +43,16 @@ class Header extends Component {
             <Menu.Item>
             </Menu.Item>
             <Menu.Item>
-              <Link to={'/'}>Home</Link>
+              <Link to={'/'}>Wellcome</Link>
             </Menu.Item>
             <Menu.Item>
-              <Link to={'/product'}>Product</Link>
+              <Link to={'/document'}>Document</Link>
             </Menu.Item>
             <Menu.Item>
-              <Link to={'/doc'}>Document</Link>
+              <Link to={'/deployment'}>Deployment</Link>
             </Menu.Item>
             <Menu.Item>
-              <Link to={'/about'}>About</Link>
+              <Link to={'/contribution'}>Contribution</Link>
             </Menu.Item>
             <User request={request}/>
             <Menu.Item style={{ float: 'right', border: 'none' }}>
