@@ -10,8 +10,9 @@ jobs:
         uses: actions/setup-go@v1
         with:
           go-version: '1.13'
-      - name: Test
+      - name: Checkout
         uses: actions/checkout@master
+      - name: Test
         run: make test-server
 
   test-html-client:
@@ -22,6 +23,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: '10.15.0'
-      - name: Test
+      - name: Checkout
         uses: actions/checkout@master
+      - name: Test
         run: make test-html-client
