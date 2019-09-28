@@ -33,7 +33,7 @@ jobs:
           pwd
           ls -al bin
           ls -al releases
-          docker build -t ${IMAGE_NAME} main
+          docker build -t ${IMAGE_NAME} .
           docker push ${IMAGE_NAME}
           docker tag ${IMAGE_NAME} mapleque/cell:latest
           docker push mapleque/cell:latest
