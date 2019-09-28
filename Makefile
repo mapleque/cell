@@ -1,4 +1,4 @@
-.PHONY: run-server-dev run-html-client-dev run install release help
+.PHONY: test-server test-html-client run-server-dev run-html-client-dev run install release help
 
 help:
 	@echo 'Thanks for your contribution, make can help you more!'
@@ -11,6 +11,12 @@ help:
 	@echo '		build both server and client into bin'
 	@echo '	make release'
 	@echo '		build release packages for multiple platform'
+
+test-server:
+	echo 'TODO'
+
+test-html-client:
+	echo 'TODO'
 
 run-server-dev: main/.env bin/www
 	cd main && go run server.go
