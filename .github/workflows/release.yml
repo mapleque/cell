@@ -23,10 +23,11 @@ jobs:
       - name: Docker build and push
         env:
           IMAGE_NAME: mapleque/cell:${GITHUB_REF}
-        run: echo ${IMAGE_NAME}
-        run: docker login -u mapleque -p ${{ secrets.DOCKER_TOKEN }} \
-              && docker build -t ${IMAGE_NAME} main \
-              && docker push ${IMAGE_NAME}
+        run: |
+          echo ${IMAGE_NAME}
+          docker login -u mapleque -p ${{ secrets.DOCKER_TOKEN }}
+          docker build -t ${IMAGE_NAME} main
+          docker push ${IMAGE_NAME}
       - name: Github Release
         uses: softprops/action-gh-release@v1
         with:
