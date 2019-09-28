@@ -34,8 +34,8 @@ class Index extends Component {
             <li>
               Create use and grant to database cell:
               <SyntaxHighlighter language='sql' style={docco} className='code'>
-                {`CREATE USER 'cell'@'db.service.com' IDENTIFIED BY 'password';
-GRANT ALL ON cell.* TO 'cell'@'db.service.com';`}
+                {`CREATE USER 'cell'@'cell.service.com' IDENTIFIED BY 'password';
+GRANT ALL ON cell.* TO 'cell'@'cell.service.com';`}
               </SyntaxHighlighter>
             </li>
           </ul>
@@ -44,7 +44,7 @@ GRANT ALL ON cell.* TO 'cell'@'db.service.com';`}
         <Paragraph>
           <SyntaxHighlighter language='shell' style={docco} className='code'>
             {`docker run -d \\
-  --expose 0.0.0.0:80:80 \\
+  -p 0.0.0.0:80:80 \\
   --env DB_DSN='cell:password@tpc(db.service.com:3306)/cell?charset=utf8mb4&parseTime=true&loc=Local' \\
   --env KERBEROS_TGS_SECRET_KEY=a_random_token_with_32_charactor \\
   --env KERBEROS_APP_SECRET_KEY=b_random_token_with_32_charactor \\

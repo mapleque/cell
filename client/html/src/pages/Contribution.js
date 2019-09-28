@@ -18,7 +18,7 @@ class Index extends Component {
         <Paragraph style={{ fontSize: 20 }}>
         We wish your contribution.
         </Paragraph>
-        Our target is make a
+        Our target is make a{' '}
         <Text mark>purer</Text>,{' '}
         <Text mark>securer</Text>, and {' '}
         <Text mark>more convenient</Text> user authorization service{' '}.

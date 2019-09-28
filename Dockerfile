@@ -6,7 +6,7 @@ COPY bin/www /opt/www
 
 ENV \
 HTTP_LISTEN=0.0.0.0:80 \
-HTTP_STATIC_PATH=/opt/www/html \
+HTTP_STATIC_PATH=/opt/www \
 HTTPS_KEY_FILE= \
 HTTPS_CERT_FILE= \
 DB_DSN=root@tcp(localhost:3306)/cell?charset=utf8mb4&parseTime=true&loc=Local \
