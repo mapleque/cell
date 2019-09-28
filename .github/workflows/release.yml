@@ -21,11 +21,9 @@ jobs:
       - name: Build
         run: |
           make install && make release
-          pwd
-          ls -al bin
-          ls -al releases
       - name: Docker build and push
         run: |
+          export PWD=$(PWD)
           export VERSION=`echo ${GITHUB_REF}|awk -F '/' '{print $NF}'`
           export IMAGE_NAME=mapleque/cell:${VERSION}
           echo ${IMAGE_NAME}
@@ -33,6 +31,8 @@ jobs:
           ls -al bin
           ls -al releases
           docker login -u mapleque -p ${{ secrets.DOCKER_TOKEN }}
+          pwd
+          cd ${PWD}
           docker build -t ${IMAGE_NAME} main
           docker push ${IMAGE_NAME}
           docker tag ${IMAGE_NAME} mapleque/cell:latest
