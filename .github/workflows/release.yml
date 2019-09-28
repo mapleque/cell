@@ -4,7 +4,7 @@ on:
     branches:
       - 'releases/*'
 jobs:
-  build_go_server:
+  release:
     name: 'Realese server'
     runs-on: ubuntu-16.04
     steps:
