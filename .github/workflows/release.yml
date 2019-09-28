@@ -12,10 +12,10 @@ jobs:
         uses: actions/setup-go@v1
         with:
           go-version: '1.13'
-      - name: Setup node
-        uses: actions/setup-node@v1
-        with:
-          node-version: '10.15.0'
+      #- name: Setup node
+      #  uses: actions/setup-node@v1
+      #  with:
+      #    node-version: '10.15.0'
       - name: Checkout
         uses: actions/checkout@master
       - name: Build
@@ -24,7 +24,8 @@ jobs:
         env:
           IMAGE_NAME: mapleque/cell:${GITHUB_REF}
         run: |
-          echo ${IMAGE_NAME}
+          echo $IMAGE_NAME
+          echo mapleque/cell:${GITHUB_REF}
           docker login -u mapleque -p ${{ secrets.DOCKER_TOKEN }}
           docker build -t ${IMAGE_NAME} main
           docker push ${IMAGE_NAME}
