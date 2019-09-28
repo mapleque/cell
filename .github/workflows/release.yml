@@ -2,7 +2,7 @@ name: Release
 on:
   create:
     tag:
-      - 'releases/*'
+      - '*'
 jobs:
   release:
     name: 'Realese server'
@@ -24,6 +24,7 @@ jobs:
       - name: Docker build and push
         run: |
           export PWD=$(pwd)
+          echo ${GITHUB_REF}
           export VERSION=`echo ${GITHUB_REF}|awk -F '/' '{print $NF}'`
           export IMAGE_NAME=mapleque/cell:${VERSION}
           docker login -u mapleque -p ${{ secrets.DOCKER_TOKEN }}
