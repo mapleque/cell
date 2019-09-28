@@ -1,0 +1,4 @@
+*
+!bin/templates
+!bin/www
+!releases/cell-linux

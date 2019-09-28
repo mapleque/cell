@@ -62,20 +62,20 @@ releases/cell-win32: releases
 	GOOS=windows GOARCH=386 go build -o releases/cell-win32.exe main/server.go
 
 releases/.env: releases
-	cp -r main/.env.example releases/.env
+	cp -r .env.example releases/.env
 
 releases:
 	-mkdir releases
 
 main/.env:
-	cp main/.env.example main/.env
+	cp .env.example main/.env
 
 client/html/node_modules:
 #	cd client/html && npm install
 	-mkdir client/html/node_modules
 
 bin/.env: bin
-	cp main/.env.example bin/.env
+	cp .env.example bin/.env
 
 bin/server: bin
 	go build -o bin/server main/server.go
