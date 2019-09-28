@@ -89,7 +89,8 @@ bin:
 	mkdir bin
 
 client/html/build: client/html/node_modules
-	cd client/html && npm run build
+#	cd client/html && npm run build
+	-mkdir client/html/build
 
 clean:
 	-rm -rf bin
