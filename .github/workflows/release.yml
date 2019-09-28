@@ -22,7 +22,7 @@ jobs:
         run: make install && make release
       - name: Docker build and push
         env:
-          IMAGE_NAME: cell:${GITHUB_REF}
+          IMAGE_NAME: mapleque/cell:${GITHUB_REF}
         run: docker login -u mapleque -p ${{ secrets.DOCKER_TOKEN }} \
               && docker build -t ${IMAGE_NAME} main \
               && docker push ${IMAGE_NAME}
