@@ -25,7 +25,7 @@ jobs:
         env:
           IMAGE_NAME: cell:${GITHUB_REF}
       - name: Docker build and push
-        run: docker login -u mapleque -p ${{ secret.DOCKER_TOKEN }} \
+        run: docker login -u mapleque -p ${{ secrets.DOCKER_TOKEN }} \
               && docker build -t ${IMAGE_NAME} main \
               && docker push ${IMAGE_NAME}
       - name: Github Release
