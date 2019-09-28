@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { Alert, Form, Icon, Input, Button, Checkbox } from 'antd'
 import { MD5, AES, enc, pad, mode } from 'crypto-js'
 import { Link } from 'react-router-dom'
@@ -19,7 +19,7 @@ const decrypt = (data, key) => JSON.parse(
   )
 )
 
-const md5 = data => MD5(`${process.env.REACT_APP_SALT}${data}`).toString()
+const md5 = data => MD5(`${process.env.REACT_APP_PASSWORD_SALT}${data}`).toString()
 
 const timestamp = () => parseInt(new Date().valueOf() / 1000, 10)
 
@@ -86,53 +86,58 @@ class Index extends Component {
       window.location.replace('/dashboard')
     } catch (e) {
       console.error(e)
-      this.setState({errorMessage: e.message})
+      this.setState({errorMessage: 'Invalid username or password'})
     }
   }
 
   render() {
     const { getFieldDecorator } = this.props.form
     return (
-      <Form
-        onSubmit={this.handleSubmit.bind(this)}
-        style={{ margin: '150px auto', width: 300, position: 'relative', top: '50%' }}
-      >
-        {
-          this.state.errorMessage !== null ? <Alert
-            message={this.state.errorMessage}
-            type='error'
-            style={{ position: 'absolute', top: -50, width: 300 }}
-            closable
-          /> : ''
-        }
-        <Form.Item>
-          {getFieldDecorator('username', {
-            rules: [{ required: true, message: 'Please input your username!' }]
-          })(
-            <Input prefix={<Icon type='user' style={{ fontSize: 13 }} />} placeholder='Username' />
-          )}
-        </Form.Item>
-        <Form.Item>
-          {getFieldDecorator('password', {
-            rules: [{ required: true, message: 'Please input your Password!' }]
-          })(
-            <Input prefix={<Icon type='lock' style={{ fontSize: 13 }} />} type='password' placeholder='Password' />
-          )}
-        </Form.Item>
-        <Form.Item>
-          {getFieldDecorator('remember', {
-            valuePropName: 'checked',
-            initialValue: true
-          })(
-            <Checkbox>Remember me</Checkbox>
-          )}
-          <Link to='/forgot' style={{ float: 'right' }}>Forgot password</Link>
-          <Button type='primary' htmlType='submit' style={{ width: '100%' }}>
-            Log in
-          </Button>
-          Or <Link to='/register'>register now!</Link>
-        </Form.Item>
-      </Form>
+      <Fragment>
+        <h2 style={{ top: 125, width: 300, left: '50%', marginLeft: -150, textAlign: 'center', position: 'absolute' }}>
+          Please login with your account
+        </h2>
+        <Form
+          onSubmit={this.handleSubmit.bind(this)}
+          style={{ margin: '150px auto', width: 300, position: 'relative', top: '50%' }}
+        >
+          {
+            this.state.errorMessage !== null ? <Alert
+              message={this.state.errorMessage}
+              type='error'
+              style={{ position: 'absolute', top: -50, width: 300 }}
+              closable
+            /> : ''
+          }
+          <Form.Item>
+            {getFieldDecorator('username', {
+              rules: [{ required: true, message: 'Please input your username!' }]
+            })(
+              <Input prefix={<Icon type='user' style={{ fontSize: 13 }} />} placeholder='Username' />
+            )}
+          </Form.Item>
+          <Form.Item>
+            {getFieldDecorator('password', {
+              rules: [{ required: true, message: 'Please input your Password!' }]
+            })(
+              <Input prefix={<Icon type='lock' style={{ fontSize: 13 }} />} type='password' placeholder='Password' />
+            )}
+          </Form.Item>
+          <Form.Item>
+            {getFieldDecorator('remember', {
+              valuePropName: 'checked',
+              initialValue: true
+            })(
+              <Checkbox>Remember me</Checkbox>
+            )}
+            <Link to='/forgot' style={{ float: 'right' }}>Forgot password</Link>
+            <Button type='primary' htmlType='submit' style={{ width: '100%' }}>
+              Log in
+            </Button>
+            Or <Link to='/register'>register now!</Link>
+          </Form.Item>
+        </Form>
+      </Fragment>
     )
   }
 }

@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Typography } from 'antd'
 import SyntaxHighlighter from 'react-syntax-highlighter'
 import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs'
-import './Document.css'
 
 const { Title, Text, Paragraph } = Typography
 
