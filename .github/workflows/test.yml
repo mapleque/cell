@@ -1,0 +1,29 @@
+name: Test
+on: push
+
+jobs:
+  test-go-server:
+    name: 'Test go server'
+    runs-on: ubuntu-16.04
+    steps:
+      - name: Setup go
+        uses: actions/setup-go@v1
+        with:
+          go-version: '1.13'
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Test
+        run: make test-server
+
+  test-html-client:
+    name: 'Test html client'
+    runs-on: ubuntu-16.04
+    steps:
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '10.15.0'
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Test
+        run: make test-html-client

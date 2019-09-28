@@ -104,6 +104,9 @@ class Index extends Component {
     const { getFieldDecorator } = this.props.form
     return (
       <Form {...formItemLayout} onSubmit={this.handleSubmit.bind(this)} style={{ margin: '70px auto', width: 500, position: 'relative' }}>
+        <h2 style={{ textAlign: 'center', marginBottom: 24 }}>
+          You are now registering in Mapleque Cell:
+        </h2>
         {
           this.state.successMessage !== null ? <Alert
             message={this.state.successMessage}
