@@ -67,13 +67,13 @@ ENV MAIL_TEMPLATE_PATTERN=/opt/templates/mail_template/*
 #
 # set a random token with 32 bytes
 # !!!Important: modify this or setting with env
-KERBEROS_TGS_SECRET_KEY=a_random_token_with_32_charactor
+ENV KERBEROS_TGS_SECRET_KEY=a_random_token_with_32_charactor
 
 # Kerberos application secret key
 #
 # set a random token with 32 bytes
 # !!!Important: modify this or setting with env
-KERBEROS_APP_SECRET_KEY=b_random_token_with_32_charactor
+ENV KERBEROS_APP_SECRET_KEY=b_random_token_with_32_charactor
 
 # user password hash salt
 #

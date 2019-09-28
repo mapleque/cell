@@ -24,6 +24,7 @@ jobs:
         run: |
           export VERSION=`echo ${GITHUB_REF}|awk -F '/' '{print $NF}'`
           export IMAGE_NAME=mapleque/cell:${VERSION}
+          echo ${IMAGE_NAME}
           docker login -u mapleque -p ${{ secrets.DOCKER_TOKEN }}
           docker build -t ${IMAGE_NAME} main
           docker push ${IMAGE_NAME}
