@@ -1,6 +1,6 @@
 FROM debian:9.4-slim
 
-COPY bin/cell-linux /opt/cell
+COPY releases/cell-linux /opt/cell
 COPY bin/templates /opt/templates
 COPY bin/www /opt/www
 
