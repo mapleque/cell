@@ -21,8 +21,9 @@ jobs:
       - name: Build
         run: |
           make install && make release
-          tree .
           pwd
+          ls -al bin
+          ls -al releases
       - name: Docker build and push
         run: |
           export VERSION=`echo ${GITHUB_REF}|awk -F '/' '{print $NF}'`
