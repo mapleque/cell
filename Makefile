@@ -71,7 +71,8 @@ main/.env:
 	cp main/.env.example main/.env
 
 client/html/node_modules:
-	cd client/html && npm install
+#	cd client/html && npm install
+	-mkdir client/html/node_modules
 
 bin/.env: bin
 	cp main/.env.example bin/.env
