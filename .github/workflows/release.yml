@@ -16,17 +16,19 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: '10.15.0'
-      - name: Build
+      - name: Checkout
         uses: actions/checkout@master
+      - name: Build
         run: make install && make release
-      - name: Docker
+      - name: Setup Docker
         uses: actions/docker@master
         env:
           IMAGE_NAME: cell:${GITHUB_REF}
+      - name: Docker build and push
         run: docker login -u mapleque -p ${{ secret.DOCKER_TOKEN }} \
               && docker build -t ${IMAGE_NAME} main \
               && docker push ${IMAGE_NAME}
-      - name: Release
+      - name: Github Release
         uses: softprops/action-gh-release@v1
         with:
           files: |
