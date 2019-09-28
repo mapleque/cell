@@ -71,8 +71,7 @@ main/.env:
 	cp .env.example main/.env
 
 client/html/node_modules:
-#	cd client/html && npm install
-	-mkdir client/html/node_modules
+	cd client/html && npm install
 
 bin/.env: bin
 	cp .env.example bin/.env
@@ -90,8 +89,7 @@ bin:
 	mkdir bin
 
 client/html/build: client/html/node_modules
-#	cd client/html && npm run build
-	-mkdir client/html/build
+	cd client/html && npm run build
 
 clean:
 	-rm -rf bin

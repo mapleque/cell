@@ -1,7 +1,7 @@
 name: Release
 on:
-  push:
-    branches:
+  create:
+    tag:
       - 'releases/*'
 jobs:
   release:
@@ -12,10 +12,10 @@ jobs:
         uses: actions/setup-go@v1
         with:
           go-version: '1.13'
-      #- name: Setup node
-      #  uses: actions/setup-node@v1
-      #  with:
-      #    node-version: '10.15.0'
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '10.15.0'
       - name: Checkout
         uses: actions/checkout@master
       - name: Build
@@ -26,13 +26,7 @@ jobs:
           export PWD=$(pwd)
           export VERSION=`echo ${GITHUB_REF}|awk -F '/' '{print $NF}'`
           export IMAGE_NAME=mapleque/cell:${VERSION}
-          echo ${IMAGE_NAME}
           docker login -u mapleque -p ${{ secrets.DOCKER_TOKEN }}
-          pwd
-          cd ${PWD}
-          pwd
-          ls -al bin
-          ls -al releases
           docker build -t ${IMAGE_NAME} .
           docker push ${IMAGE_NAME}
           docker tag ${IMAGE_NAME} mapleque/cell:latest
