@@ -25,7 +25,7 @@ class Header extends Component {
         <Layout.Header style={{ background: '#fff', padding: 0 }}>
           <Link to='/' style={{
             height: 32,
-            width: 176,
+            width: 200,
             margin: '16px 24px 15px',
             lineHeight: '32px',
             float: 'left',
